@@ -1,0 +1,399 @@
+import { useState, useEffect } from 'react'
+import Head from 'next/head'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+// import dbConnect from '../utils/dbConnect'
+// import Item from '../models/Item'
+import { useDispatch, useSelector } from 'react-redux'
+import { getSpecificItems } from '../../../store/actions/itemActions'
+import { addView } from '../../../store/actions/otherActions'
+import { getUsers } from '../../../store/actions/userActions'
+// import { goComments } from '../../../store/actions/commentActions'
+// import { goReplies } from '../../../store/actions/replyActions'
+// import { goTc } from '../../../store/actions/tcActions'
+// import { goPp } from '../../../store/actions/ppActions'
+// import { goAb } from '../../../store/actions/aboutActions'
+import Subscribe from '../../../components/Subscribe'
+
+const Index = () => {
+    const dispatch = useDispatch()
+    const router = useRouter()
+    
+    const previous = useSelector(state => state.item.items.previous)
+    const items = useSelector(state => state.item.items.results)
+    const next = useSelector(state => state.item.items.next)
+    // const filez = useSelector(state => state.file.files)
+    const userz = useSelector(state => state.user.users)
+    // const [ uniq, setUniq ] = useState('no')
+
+    const [ query, setQuery ] = useState('')
+    const [ search, setSearch ] = useState(null)
+    const [ author, setAuthor ] = useState(null)
+    const [ page, setPage ] = useState(router.query.page ? router.query.page : null)
+    const [ sort, setSort ] = useState(null)
+    const [ finder, setFinder ] = useState(false)
+    // const [ anotherone, setAnotherone ] = useState(false)
+    // const [ anotheroneX, setAnotheroneX ] = useState(false)
+    const [ isOpenFilters, setIsOpenFilters ] = useState(false)
+    const [ isOpenAuthor, setIsOpenAuthor ] = useState(false)
+    const [ isOpenSort, setIsOpenSort ] = useState(false)
+    let uniq = 'no'
+
+    const jump = (search, author, page, sort) => {
+        // ITEMS
+        if (search || author || page || sort) { // if one of them isn't NULL (changing any filter)
+            router.push(        
+                search ?
+                    author ?
+                        page ?
+                            sort ?
+                                `/search/${search}/author/${author}/page/${page}/sort/${sort}`
+                            : `/search/${search}/author/${author}/page/${page}`
+                        : sort ?
+                            `/search/${search}/author/${author}/sort/${sort}`
+                        : `/search/${search}/author/${author}`
+                    : page ?
+                        sort ?
+                            `/search/${search}/page/${page}/sort/${sort}`
+                        : `/search/${search}/page/${page}`
+                    : sort ?
+                        `/search/${search}/sort/${sort}`
+                    : `/search/${search}`
+        
+                : author ?
+                    page ?
+                        sort ?
+                            `/author/${author}/page/${page}/sort/${sort}`
+                        : `/author/${author}/page/${page}`
+                    : sort ?
+                        `/author/${author}/sort/${sort}`
+                    : `/author/${author}`
+        
+                : page ?
+                    sort ?
+                        `/page/${page}/sort/${sort}`
+                    : `/page/${page}`
+        
+                : sort ?
+                    `/sort/${sort}`
+        
+                : `/`
+            )
+        }
+        dispatch(getSpecificItems(search, author, page, sort))
+        // USERS
+        dispatch(getUsers())
+    }
+
+    useEffect(() => {
+        if (localStorage.getItem(`userId`)) {
+            if (sessionStorage.getItem(`userId`)) {
+                if (localStorage.getItem(`userId`) === sessionStorage.getItem(`userId`)) {
+                    // setUniq('unique')
+                    uniq = 'unique'
+                }
+            }
+        }
+        const theView = {
+            way: window.location.href,
+            unique: uniq,
+            screenSize: window.screen.width
+        }
+        if (!sessionStorage.getItem(`viewAdded`)) {
+            dispatch(addView(theView))
+            sessionStorage.setItem(`viewAdded`, 'true')
+        }
+    }, [])
+
+    useEffect(() => {
+        jump(search, author, page, sort)
+    }, [finder])
+
+    // const [ fullPiece, setFullPiece ] = useState(null)
+    
+    // const GoToLink = (fullPiece) => {
+    //     router.push(
+    //         fullPiece.search ?
+    //             fullPiece.author ?
+    //                 fullPiece.pg ?
+    //                     fullPiece.sort ?
+    //                         `/search/${fullPiece.search}/author/${fullPiece.author}/page/${fullPiece.pg}/sort/${fullPiece.sort}`
+    //                     : `/search/${fullPiece.search}/author/${fullPiece.author}/page/${fullPiece.pg}`
+    //                 : fullPiece.sort ?
+    //                     `/search/${fullPiece.search}/author/${fullPiece.author}/sort/${fullPiece.sort}`
+    //                 : `/search/${fullPiece.search}/author/${fullPiece.author}`
+    //             : fullPiece.pg ?
+    //                 fullPiece.sort ?
+    //                     `/search/${fullPiece.search}/page/${fullPiece.pg}/sort/${fullPiece.sort}`
+    //                 : `/search/${fullPiece.search}/page/${fullPiece.pg}`
+    //             : fullPiece.sort ?
+    //                 `/search/${fullPiece.search}/sort/${fullPiece.sort}`
+    //             : `/search/${fullPiece.search}`
+    
+    //         : fullPiece.author ?
+    //             fullPiece.pg ?
+    //                 fullPiece.sort ?
+    //                     `/author/${fullPiece.author}/page/${fullPiece.pg}/sort/${fullPiece.sort}`
+    //                 : `/author/${fullPiece.author}/page/${fullPiece.pg}`
+    //             : fullPiece.sort ?
+    //                 `/author/${fullPiece.author}/sort/${fullPiece.sort}`
+    //             : `/author/${fullPiece.author}`
+    
+    //         : fullPiece.pg ?
+    //             fullPiece.sort ?
+    //                 `/page/${fullPiece.pg}/sort/${fullPiece.sort}`
+    //             : `/page/${fullPiece.pg}`
+    
+    //         : fullPiece.sort ?
+    //             `/sort/${fullPiece.sort}`
+    
+    //         : `/`
+    //     )
+    // }
+
+    // useEffect(() => {
+    //     if (localStorage.getItem(`userId`)) {
+    //         if (sessionStorage.getItem(`userId`)) {
+    //             if (localStorage.getItem(`userId`) === sessionStorage.getItem(`userId`)) {
+    //                 setUniq('unique')
+    //             }
+    //         }
+    //     }
+    //     if(router.query.page) {
+    //         setFullPiece({
+    //             pg: router.query.page ? router.query.page : null
+    //         })
+    //         setAnotherone(!anotherone)
+    //     }
+    // }, [router.query.page])
+
+    // useEffect(() => {
+    //     theView = {
+    //         way: window.location.href,
+    //         unique: uniq,
+    //         screenSize: window.screen.width
+    //     }
+    //     if(fullPiece) {
+    //         dispatch(getSpecificItems(fullPiece))
+    //         dispatch(getUsers())
+    //         if (!localStorage.getItem(`viewAdded`)) {
+    //             dispatch(addView(theView))
+    //             localStorage.setItem(`viewAdded`, 'true')
+    //         }
+    //         dispatch(goComments())
+    //         dispatch(goReplies())
+    //         dispatch(goTc())
+    //         dispatch(goPp())
+    //         dispatch(goAb())
+    //     }
+    // }, [anotherone])
+
+    // useEffect(() => {
+    //     if(page || sort || search || author || search === '') {
+    //         setFullPiece({
+    //             pg: page ? page : router.query.page ? router.query.page : null,
+    //             sort: sort ? sort : null,
+    //             search: search === '' ? null : search ? search : null,
+    //             author:  author ? author : null
+    //         })
+    //         setAnotheroneX(!anotheroneX)
+    //     }
+    // }, [finder])
+
+    // useEffect(() => {
+    //     if(page || sort || search || author || search === '') {
+    //         GoToLink(fullPiece)
+    //         setPage(null)
+    //         setSort(null)
+    //         setQuery('')
+    //         setSearch(null)
+    //         setAuthor(null)
+    //     }
+    // }, [anotheroneX])
+    
+    // PAGE
+    const togglePage = e => {
+        setPage(e.target.value)
+        setFinder(!finder)
+    }
+
+    // SORT
+    const toggleSort = () => {
+        setIsOpenSort(!isOpenSort)
+    }
+    const handlePopular = e => {
+        setSort(e.target.value)
+        setPage(1)
+        setFinder(!finder)
+        setIsOpenSort(!isOpenSort)
+    }
+    const handleAscending = e => {
+        setSort(e.target.value)
+        setPage(1)
+        setFinder(!finder)
+        setIsOpenSort(!isOpenSort)
+    }
+    const handleDescending = e => {
+        setSort(e.target.value)
+        setPage(1)
+        setFinder(!finder)
+        setIsOpenSort(!isOpenSort)
+    }
+
+    // SEARCH
+    const handleSearch = e => {
+        setQuery(e.target.value)
+    }
+    const handleSubmit = e => {
+        e.preventDefault()
+        setSearch(query)
+        setPage(1)
+        setFinder(!finder)
+    }
+
+    // AUTHOR
+    const toggleFilters = () => {
+        setIsOpenFilters(!isOpenFilters)
+    }
+    const toggleAuthor = () => {
+        setIsOpenAuthor(!isOpenAuthor)
+    }
+    const handleAuthor = e => {
+        setAuthor(e.target.value)
+        setPage(1)
+        setIsOpenFilters(!isOpenFilters)
+        setIsOpenAuthor(!isOpenAuthor)
+        setFinder(!finder)
+    }
+
+    return (
+        <div>
+
+            <Head>
+                <title>My Blog</title>
+                <meta property="og:title" content='My Blog Title'/>
+                <meta property="og:description" content='My Blog Description'/>
+            </Head>
+
+            <Subscribe/>
+                
+            <form onSubmit={handleSubmit}>
+                <input type="text" value={query} onChange={handleSearch}></input>
+                <input type="submit" value="Search"></input>
+            </form>
+
+            <div>
+                <button onClick={toggleFilters}>Filters</button>
+                {isOpenFilters ?
+                    <div>
+                        <h4>Author <button onClick={toggleAuthor}>v</button></h4>
+                        {isOpenAuthor ?
+                            userz ?
+                                userz.map(user =>
+                                    <div key={user.name}>
+                                        <input 
+                                            type="checkbox"
+                                            name="author"
+                                            id={user.name}
+                                            value={user.name}
+                                            onChange={handleAuthor}
+                                            defaultChecked={false}
+                                        ></input>
+                                        <p>{user.name}</p>
+                                    </div>
+                                )
+                            : null
+                        : null}
+                    </div>
+                : null}
+            </div>
+                
+            <button onClick={toggleSort}>Sort</button>
+            {isOpenSort ?
+                <div>
+                    <input type="radio" name="filter" value="descending" onChange={handleDescending} checked={false}></input> <p>Newest</p>
+                    <input type="radio" name="filter" value="ascending" onChange={handleAscending} checked={false}></input> <p>Oldest</p>           
+                    <input type="radio" name="filter" value="popular" onChange={handlePopular} checked={false}></input> <p>Most popular</p>
+                </div>
+            : null}
+        
+            {items ?
+                items.map((item) => (
+                <div key={item._id}>
+                    <div>
+                        <img key={item.picUrl} src={item.picUrl} alt={item.title} width="50" height="50"></img>
+                    </div>
+                        <div>
+                            {item.by}
+                        </div>
+                        <div>
+                            <p>{item.views.total} views</p>
+                        </div>
+                        <div>
+                            <p>{item.commCount} comments</p>
+                        </div>
+                        <div>
+                        {/* className={styles.iteminside} */}
+                            <div>
+                                <h2>{item.title}</h2>
+                            </div>
+                            <div>
+                                <h4>{item.subtitle}</h4>
+                            </div>
+                            <div>
+                                {item.text ?
+                                    item.text.blocks ?
+                                        <p>{item.text.blocks.find(elem => elem.type === 'paragraph').data.text.slice(0,10)}[...]</p>
+                                    : null
+                                : null}
+                            </div>
+                        </div>
+                        <div>
+                            <p>{item.date.slice(0,10)} {item.date.slice(11,19)}</p>
+                        </div>
+                    <div>
+                        <Link href="/[title]" as={`/${item.title}`}>
+                            <button>View</button>
+                        </Link>
+                    </div>  
+                </div>
+                ))
+            : null}
+
+            {/* PAGINATION */}
+
+            {previous ?
+                next ?
+                    <div>
+                        <button value={previous.page} onClick={togglePage}>{previous.page}</button>
+                        <button disabled>{next.page - 1}</button>
+                        <button value={next.page} onClick={togglePage}>{next.page}</button>
+                    </div>
+                : <div>
+                    <button value={previous.page} onClick={togglePage}>{previous.page}</button>
+                    <button disabled>{previous.page + 1}</button>
+                </div>
+            : next ?
+                <div>
+                    <button disabled>{next.page - 1}</button>
+                    <button value={next.page} onClick={togglePage}>{next.page}</button>
+                </div>
+            : null}
+
+            {/* PAGINATION */}
+
+            {/* <footer>
+                ...
+            </footer> */}
+
+        </div>
+    )
+}
+
+// change this to gsr
+// export async function getServerSideProps() {
+//   await dbConnect()
+//   return {props: {xXx: "xXx"}}
+// }
+
+export default Index

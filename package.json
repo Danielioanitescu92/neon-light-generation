@@ -1,0 +1,31 @@
+{
+  "name": "with-mongodb-mongoose",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start -p $PORT"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^7.4.1",
+    "axios": "^0.21.0",
+    "emailjs": "^3.4.0",
+    "gridfs-stream": "^1.1.1",
+    "mailgun-js": "^0.22.0",
+    "mongodb": "^3.6.3",
+    "mongoose": "^5.9.13",
+    "next": "^9.4.2",
+    "next-absolute-url": "^1.2.2",
+    "nodemailer": "^6.4.17",
+    "nodemailer-mailgun-transport": "^2.0.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.2",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0",
+    "swr": "0.2.2",
+    "uuid": "^8.3.2"
+  },
+  "license": "MIT"
+}
