@@ -154,7 +154,7 @@ const ItemPage = ({ item }) => {
         
                 {item ?
                     <div key={item._id}>
-                        {/* className={styles.item} */}
+                        {/* className={styles.item}  */}
         
                         <div>
                             {/* className={styles.post} */}
