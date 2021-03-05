@@ -7,7 +7,6 @@ import { getThisItem, addView } from '../../store/actions/itemActions'
 import { getThisComms, addComment, addLike, removeLike } from '../../store/actions/commentActions'
 import { getThisReps, addReply, addRLike, removeRLike } from '../../store/actions/replyActions'
 import { getThisUser } from '../../store/actions/userActions'
-import ShareFb from '../../components/ShareFb'
 import { v4 as uuidv4 } from 'uuid'
 
 import dbConnect from '../../utils/dbConnect'
@@ -244,8 +243,6 @@ const ItemPage = ({ item }) => {
                                 : null}
                             </div>
                         </div>
-                        
-                        {/* <ShareFb /> */}
         
                         <div>
         
