@@ -7,16 +7,9 @@ const AdBanner = () => {
         try {
             (window.adsbygoogle = window.adsbygoogle || []).push({})
         } catch (err) {
-            console.log(err)
+            console.log("AdBanner error: ", err)
         }
     }, [])
-
-    // if ERROR: UnhandledPromiseRejectionWarning: ReferenceError: window is not defined
-    // useEffect(()=> {
-    //     if(typeof window !== 'undefined'){
-    //         (window.adsbygoogle = window.adsbygoogle || []).push({})
-    //     }
-    // }, [])
 
     return (
         <ins

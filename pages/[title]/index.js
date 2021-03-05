@@ -9,6 +9,8 @@ import { getThisReps, addReply, addRLike, removeRLike } from '../../store/action
 import { getThisUser } from '../../store/actions/userActions'
 import { v4 as uuidv4 } from 'uuid'
 
+import AdBanner from '../../components/AdBanner'
+
 import dbConnect from '../../utils/dbConnect'
 import Item from '../../models/Item'
 import mongoose from 'mongoose'
