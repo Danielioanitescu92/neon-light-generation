@@ -245,7 +245,7 @@ const ItemPage = ({ item }) => {
                             </div>
                         </div>
                         
-                        <ShareFb />
+                        {/* <ShareFb /> */}
         
                         <div>
         
