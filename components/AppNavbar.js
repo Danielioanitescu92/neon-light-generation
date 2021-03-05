@@ -1,22 +1,7 @@
-// import { useEffect } from 'react'
 import Link from 'next/link'
-// import { useSelector, useDispatch } from 'react-redux'
-// import { getSpecificItems } from '../store/actions/itemActions'
-// import { goItemsFiles, goAvatarsFile } from '../store/actions/imageActions'
+// import styles from './Components.module.css'
 
 const AppNavbar = () => {
-    // const dispatch = useDispatch()
-    // const itemzLoading = useSelector(store => store.item.loading)
-
-    // const togglePage = () => {
-    //     console.log("Home")
-    //     if(!window.location.pathname.includes('/aboutus') ||
-    //         !window.location.pathname.includes('/contact') ||
-    //         !window.location.pathname.includes('/privacy-policies') ||
-    //         !window.location.pathname.includes('/terms-and-conditions')) {
-    //             dispatch(getSpecificItems(null, null, null, null))
-    //     }
-    // }
 
     return (
         <div
@@ -32,7 +17,6 @@ const AppNavbar = () => {
                 backgroundColor: 'blue' 
             }}
         >
-         {/* className={styles.navbar} */}
 
             <div>              
                 <Link href="/">

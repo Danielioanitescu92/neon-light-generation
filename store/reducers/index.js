@@ -7,7 +7,7 @@ import userReducer from './userReducer';
 import subReducer from './subReducer';
 import ppReducer from './ppReducer';
 import tcReducer from './tcReducer';
-import imageReducer from './imageReducer';
+// import imageReducer from './imageReducer';
 import aboutReducer from './aboutReducer';
 
 export default combineReducers({
@@ -19,6 +19,6 @@ export default combineReducers({
     sub: subReducer,
     privpol: ppReducer,
     termscons: tcReducer,
-    file: imageReducer,
+    // file: imageReducer,
     about: aboutReducer
 });

@@ -37,8 +37,6 @@ const Subscribe = () => {
 
     return (
         <div>
-             {/* className={styles.thelist} */}
-
             <div>
                 {msg ? <h3>{msg}</h3> : null}
             </div>
@@ -47,7 +45,6 @@ const Subscribe = () => {
                 <input type="text" value={email} onChange={handleEmail}></input>
                 <input type="submit" value="Subscribe"></input>
             </form>
-
         </div>
     )
 }

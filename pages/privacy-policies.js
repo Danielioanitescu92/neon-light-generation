@@ -30,12 +30,10 @@ const BlogPP = () => {
 
     return (
         <div>
-            {/* className={styles.thelist} */}
             {privPolz ?
                 privPolz.map(pp => 
                     pp._id === "1" ?
                         <div key={pp._id}>
-                             {/* className={styles.item} */}
                             <div>
                                 <h1>Privacy Policies</h1>
                             </div>

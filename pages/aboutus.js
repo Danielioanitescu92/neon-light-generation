@@ -30,12 +30,10 @@ const BlogAbout = () => {
 
     return (
         <div>
-         {/* className={styles.thelist} */}
             {aboutz ?
                 aboutz.map(ab => 
                     ab._id === "1" ?
                         <div key={ab._id}>
-                         {/* className={styles.item} */}
                             <div>
                                 <h1>About Us</h1>
                             </div>

@@ -13,9 +13,6 @@ import AdBanner from '../../components/AdBanner'
 
 import dbConnect from '../../utils/dbConnect'
 import Item from '../../models/Item'
-import mongoose from 'mongoose'
-import Grid from 'gridfs-stream'
-Grid.mongo = mongoose.mongo;
 
 const ItemPage = ({ item }) => {
     const dispatch = useDispatch()
@@ -303,10 +300,13 @@ const ItemPage = ({ item }) => {
                             <div>
                                 <h3>Add a comment</h3>
                                 <form id="form" onSubmit={addingComment}>
-                                    <input name="name" type="text" value={name} onChange={handleName}></input>
-                                    <input name="email" type="text" value={email} onChange={handleEmail}></input>
-                                    <textarea name="comment" rows="5" value={comment} onChange={handleComment}></textarea>
-                                    <input type="submit" value={reply ? "Add Reply" : "Add comment"} ></input>
+                                    <label>Name</label>
+                                        <input name="name" type="text" value={name} onChange={handleName}></input>
+                                    <label>Email</label>
+                                        <input name="email" type="text" value={email} onChange={handleEmail}></input>
+                                    <label>Comment</label>
+                                        <textarea name="comment" rows="5" value={comment} onChange={handleComment}></textarea>
+                                        <input type="submit" value={reply ? "Add Reply" : "Add comment"} ></input>
                                 </form>
                             </div>
         

@@ -82,7 +82,6 @@ const Index = () => {
         if (localStorage.getItem(`userId`)) {
             if (sessionStorage.getItem(`userId`)) {
                 if (localStorage.getItem(`userId`) === sessionStorage.getItem(`userId`)) {
-                    // setUniq('unique')
                     uniq = 'unique'
                 }
             }
@@ -221,16 +220,12 @@ const Index = () => {
                         <p>{item.commCount} comments</p>
                     </div>
                     <div>
-                    {/* className={styles.iteminside} */}
                         <div>
                             <h2>{item.title}</h2>
                         </div>
                         <div>
                             <h4>{item.subtitle}</h4>
                         </div>
-                        {/* <div>
-                            <p>{item.text}</p>
-                        </div> */}
                         <div>
                             {item.text ?
                                 item.text.blocks ?

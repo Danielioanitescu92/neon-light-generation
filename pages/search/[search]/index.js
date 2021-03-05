@@ -214,7 +214,6 @@ const Index = () => {
                             <p>{item.commCount} comments</p>
                         </div>
                         <div>
-                        {/* className={styles.iteminside} */}
                             <div>
                                 <h2>{item.title}</h2>
                             </div>

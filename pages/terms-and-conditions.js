@@ -30,12 +30,10 @@ const BlogTAC = () => {
 
     return (
         <div>
-            {/* className={styles.thelist} */}
             {termsConz ?
                 termsConz.map(tc => 
                     tc._id === "1" ?
                         <div key={tc._id}>
-                             {/* className={styles.item} */}
                             <div>
                                 <h1>Terms and Conditions</h1>
                             </div>

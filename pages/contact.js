@@ -68,11 +68,9 @@ const ContactAdmin = () => {
             </div>
             <div>
                 <div>
-                {/* className={styles.collapse} */}
                     <h1>Contact admin</h1>
                 </div>
                 <div>
-                {/* className={styles.collapse} */}
                     <form id="form" onSubmit={submitEdit}>
                         <label>Name</label>
                             <input name="name" value={name} onChange={handleName}></input>

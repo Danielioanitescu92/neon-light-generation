@@ -78,7 +78,6 @@ const Index = () => {
         if (localStorage.getItem(`userId`)) {
             if (sessionStorage.getItem(`userId`)) {
                 if (localStorage.getItem(`userId`) === sessionStorage.getItem(`userId`)) {
-                    // setUniq('unique')
                     uniq = 'unique'
                 }
             }
