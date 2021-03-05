@@ -8,7 +8,7 @@ import { goAb } from '../store/actions/aboutActions'
 import { goItems } from '../store/actions/itemActions'
 import { goComments } from '../store/actions/commentActions'
 import { goReplies } from '../store/actions/replyActions'
-import { goFiles } from '../store/actions/imageActions'
+// import { goFiles } from '../store/actions/imageActions'
 import { goUsers } from '../store/actions/userActions'
 
 const BlogTAC = () => {
@@ -23,7 +23,7 @@ const BlogTAC = () => {
         dispatch(goItems())
         dispatch(goComments())
         dispatch(goReplies())
-        dispatch(goFiles())
+        // dispatch(goFiles())
         dispatch(goPp())
         dispatch(goUsers())
     }, [])
