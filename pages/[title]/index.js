@@ -14,7 +14,6 @@ import Item from '../../models/Item'
 import mongoose from 'mongoose'
 import Grid from 'gridfs-stream'
 Grid.mongo = mongoose.mongo;
-import absoluteUrl from "next-absolute-url";
 
 const ItemPage = ({ item }) => {
     const dispatch = useDispatch()
@@ -25,8 +24,6 @@ const ItemPage = ({ item }) => {
     let uniq = 'no'
 
     useEffect(() => {
-        console.log("ITEEEEEEM: ", item)
-        console.log("QUEEEEERY: ", router.query.title)
         if(item) {
             dispatch(getThisItem(item.title))
             dispatch(getThisUser(item.by))  
@@ -153,10 +150,8 @@ const ItemPage = ({ item }) => {
         
                 {item ?
                     <div key={item._id}>
-                        {/* className={styles.item}  */}
         
                         <div>
-                            {/* className={styles.post} */}
                             <div>
                                 <img src={item.picUrl} alt={item.title} width="50" height="50"></img>
                             </div>
@@ -174,11 +169,10 @@ const ItemPage = ({ item }) => {
                             <div>
                                 <h4>{item.subtitle}</h4>
                             </div>
-                            {/* <div style={{ backgroundColor: 'blue', padding: '5px', width: '80vw' }}>
+                            <div style={{ backgroundColor: 'blue', padding: '5px', width: '80vw' }}>
                                 <AdBanner/>
-                            </div> */}
+                            </div>
                             <div>
-                                {/* <p>{item.text}</p> */}
                                 {item.text ?
                                     item.text.blocks ?
                                         item.text.blocks.map(elem =>
@@ -252,7 +246,6 @@ const ItemPage = ({ item }) => {
                                 commentz.map(comm => 
                                     comm.forWich === item._id ?
                                         <div key={comm._id}>
-                                            {/* className={styles.comment} */}
                                             <div>
                                                 <h2>{comm.name}</h2>
                                                 <p>{comm.date.slice(0,10)} {comm.date.slice(11,19)}</p>
@@ -278,7 +271,6 @@ const ItemPage = ({ item }) => {
                                                 {repliez ? repliez.map(rep =>
                                                     rep.parentComm === comm._id ?
                                                         <div key={rep._id}>
-                                                            {/* className={styles.reply} */}
                                                             <div>
                                                                 <h2>{rep.name}</h2>
                                                                 <p>{rep.date.slice(0,10)} {rep.date.slice(11,19)}</p>
