@@ -8,6 +8,7 @@ import { getItemsFiles, goItemsFiles } from '../../../../../../../../../store/ac
 import { addView } from '../../../../../../../../../store/actions/otherActions'
 import { getUsers } from '../../../../../../../../../store/actions/userActions'
 import Subscribe from '../../../../../../../../../components/Subscribe'
+import AdBanner from '../../../../../../../../../components/AdBanner'
 
 const Index = () => {
     const dispatch = useDispatch()
@@ -187,6 +188,8 @@ const Index = () => {
                 <input type="text" value={query} onChange={handleSearch}></input>
                 <input type="submit" value="Search"></input>
             </form>
+
+            <AdBanner/>
 
             <div>
                 <button onClick={toggleFilters}>Filters</button>
