@@ -31,7 +31,6 @@ const Index = () => {
     const [ isOpenFilters, setIsOpenFilters ] = useState(false)
     const [ isOpenAuthor, setIsOpenAuthor ] = useState(false)
     const [ isOpenSort, setIsOpenSort ] = useState(false)
-    let uniq = 'no'
 
     const jump = (search, author, page, sort) => {
         // ITEMS
@@ -80,25 +79,6 @@ const Index = () => {
     }
 
     useEffect(() => {
-        if (localStorage.getItem(`userId`)) {
-            if (sessionStorage.getItem(`userId`)) {
-                if (localStorage.getItem(`userId`) === sessionStorage.getItem(`userId`)) {
-                    uniq = 'unique'
-                }
-            }
-        }
-        const theView = {
-            way: window.location.href,
-            unique: uniq,
-            screenSize: window.screen.width
-        }
-        if (!sessionStorage.getItem(`viewAdded`)) {
-            dispatch(addView(theView))
-            sessionStorage.setItem(`viewAdded`, 'true')
-        }
-    }, [])
-
-    useEffect(() => {
         // BRING NEW IMAGES
         if(!piczLoading) {
             if(!itemzLoading) {
@@ -108,6 +88,34 @@ const Index = () => {
                         items.map(item => {
                             dispatch(getItemsFiles([item.picUrl]))
                         })
+                    }
+                }
+            }
+        }
+        // ADD UNIQUE/NOT-UNIQUE VIEW
+        if (localStorage.getItem(`userId`)) {
+            if (sessionStorage.getItem(`userId`)) {
+                if (localStorage.getItem(`userId`) === sessionStorage.getItem(`userId`)) {
+                    const uniq = 'unique'
+                    const theView = {
+                        way: window.location.href,
+                        unique: uniq,
+                        screenSize: window.screen.width
+                    }
+                    if (!sessionStorage.getItem(`viewAdded`)) {
+                        dispatch(addView(theView))
+                        sessionStorage.setItem(`viewAdded`, 'true')
+                    }
+                } else {
+                    const uniq = 'no'
+                    const theView = {
+                        way: window.location.href,
+                        unique: uniq,
+                        screenSize: window.screen.width
+                    }
+                    if (!sessionStorage.getItem(`viewAdded`)) {
+                        dispatch(addView(theView))
+                        sessionStorage.setItem(`viewAdded`, 'true')
                     }
                 }
             }
