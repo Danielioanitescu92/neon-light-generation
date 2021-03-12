@@ -2,17 +2,11 @@ import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-// import dbConnect from '../utils/dbConnect'
-// import Item from '../models/Item'
 import { useDispatch, useSelector } from 'react-redux'
 import { getSpecificItems } from '../../../store/actions/itemActions'
+import { getItemsFiles, goItemsFiles } from '../../../store/actions/imageActions'
 import { addView } from '../../../store/actions/otherActions'
 import { getUsers } from '../../../store/actions/userActions'
-// import { goComments } from '../../../store/actions/commentActions'
-// import { goReplies } from '../../../store/actions/replyActions'
-// import { goTc } from '../../../store/actions/tcActions'
-// import { goPp } from '../../../store/actions/ppActions'
-// import { goAb } from '../../../store/actions/aboutActions'
 import Subscribe from '../../../components/Subscribe'
 
 const Index = () => {
@@ -22,9 +16,10 @@ const Index = () => {
     const previous = useSelector(state => state.item.items.previous)
     const items = useSelector(state => state.item.items.results)
     const next = useSelector(state => state.item.items.next)
-    // const filez = useSelector(state => state.file.files)
     const userz = useSelector(state => state.user.users)
-    // const [ uniq, setUniq ] = useState('no')
+    const picz = useSelector(state => state.file.files.items)
+    const piczLoading = useSelector(state => state.file.loadingIt)
+    const itemzLoading = useSelector(state => state.item.loading)
 
     const [ query, setQuery ] = useState('')
     const [ search, setSearch ] = useState(null)
@@ -32,8 +27,6 @@ const Index = () => {
     const [ page, setPage ] = useState(router.query.page ? router.query.page : null)
     const [ sort, setSort ] = useState(null)
     const [ finder, setFinder ] = useState(false)
-    // const [ anotherone, setAnotherone ] = useState(false)
-    // const [ anotheroneX, setAnotheroneX ] = useState(false)
     const [ isOpenFilters, setIsOpenFilters ] = useState(false)
     const [ isOpenAuthor, setIsOpenAuthor ] = useState(false)
     const [ isOpenSort, setIsOpenSort ] = useState(false)
@@ -106,110 +99,24 @@ const Index = () => {
     }, [])
 
     useEffect(() => {
+        // BRING NEW IMAGES
+        if(!piczLoading) {
+            if(!itemzLoading) {
+                if(items) {
+                    dispatch(goItemsFiles());
+                    if(items.length > 0) {
+                        items.map(item => {
+                            dispatch(getItemsFiles([item.picUrl]))
+                        })
+                    }
+                }
+            }
+        }
+    }, [items])
+
+    useEffect(() => {
         jump(search, author, page, sort)
     }, [finder])
-
-    // const [ fullPiece, setFullPiece ] = useState(null)
-    
-    // const GoToLink = (fullPiece) => {
-    //     router.push(
-    //         fullPiece.search ?
-    //             fullPiece.author ?
-    //                 fullPiece.pg ?
-    //                     fullPiece.sort ?
-    //                         `/search/${fullPiece.search}/author/${fullPiece.author}/page/${fullPiece.pg}/sort/${fullPiece.sort}`
-    //                     : `/search/${fullPiece.search}/author/${fullPiece.author}/page/${fullPiece.pg}`
-    //                 : fullPiece.sort ?
-    //                     `/search/${fullPiece.search}/author/${fullPiece.author}/sort/${fullPiece.sort}`
-    //                 : `/search/${fullPiece.search}/author/${fullPiece.author}`
-    //             : fullPiece.pg ?
-    //                 fullPiece.sort ?
-    //                     `/search/${fullPiece.search}/page/${fullPiece.pg}/sort/${fullPiece.sort}`
-    //                 : `/search/${fullPiece.search}/page/${fullPiece.pg}`
-    //             : fullPiece.sort ?
-    //                 `/search/${fullPiece.search}/sort/${fullPiece.sort}`
-    //             : `/search/${fullPiece.search}`
-    
-    //         : fullPiece.author ?
-    //             fullPiece.pg ?
-    //                 fullPiece.sort ?
-    //                     `/author/${fullPiece.author}/page/${fullPiece.pg}/sort/${fullPiece.sort}`
-    //                 : `/author/${fullPiece.author}/page/${fullPiece.pg}`
-    //             : fullPiece.sort ?
-    //                 `/author/${fullPiece.author}/sort/${fullPiece.sort}`
-    //             : `/author/${fullPiece.author}`
-    
-    //         : fullPiece.pg ?
-    //             fullPiece.sort ?
-    //                 `/page/${fullPiece.pg}/sort/${fullPiece.sort}`
-    //             : `/page/${fullPiece.pg}`
-    
-    //         : fullPiece.sort ?
-    //             `/sort/${fullPiece.sort}`
-    
-    //         : `/`
-    //     )
-    // }
-
-    // useEffect(() => {
-    //     if (localStorage.getItem(`userId`)) {
-    //         if (sessionStorage.getItem(`userId`)) {
-    //             if (localStorage.getItem(`userId`) === sessionStorage.getItem(`userId`)) {
-    //                 setUniq('unique')
-    //             }
-    //         }
-    //     }
-    //     if(router.query.page) {
-    //         setFullPiece({
-    //             pg: router.query.page ? router.query.page : null
-    //         })
-    //         setAnotherone(!anotherone)
-    //     }
-    // }, [router.query.page])
-
-    // useEffect(() => {
-    //     theView = {
-    //         way: window.location.href,
-    //         unique: uniq,
-    //         screenSize: window.screen.width
-    //     }
-    //     if(fullPiece) {
-    //         dispatch(getSpecificItems(fullPiece))
-    //         dispatch(getUsers())
-    //         if (!localStorage.getItem(`viewAdded`)) {
-    //             dispatch(addView(theView))
-    //             localStorage.setItem(`viewAdded`, 'true')
-    //         }
-    //         dispatch(goComments())
-    //         dispatch(goReplies())
-    //         dispatch(goTc())
-    //         dispatch(goPp())
-    //         dispatch(goAb())
-    //     }
-    // }, [anotherone])
-
-    // useEffect(() => {
-    //     if(page || sort || search || author || search === '') {
-    //         setFullPiece({
-    //             pg: page ? page : router.query.page ? router.query.page : null,
-    //             sort: sort ? sort : null,
-    //             search: search === '' ? null : search ? search : null,
-    //             author:  author ? author : null
-    //         })
-    //         setAnotheroneX(!anotheroneX)
-    //     }
-    // }, [finder])
-
-    // useEffect(() => {
-    //     if(page || sort || search || author || search === '') {
-    //         GoToLink(fullPiece)
-    //         setPage(null)
-    //         setSort(null)
-    //         setQuery('')
-    //         setSearch(null)
-    //         setAuthor(null)
-    //     }
-    // }, [anotheroneX])
     
     // PAGE
     const togglePage = e => {
@@ -321,7 +228,17 @@ const Index = () => {
                 items.map((item) => (
                 <div key={item._id}>
                     <div>
-                        <img key={item.picUrl} src={item.picUrl} alt={item.title} width="50" height="50"></img>
+                        {picz ?
+                            picz.length > 0 ?
+                                picz.map(pic =>
+                                    pic === null ?
+                                        null
+                                    : pic.filename === item.picUrl ?
+                                        <img key={pic._id} src={`/api/uploads/image/${pic.filename}`} alt={item.title} width="50" height="50"></img>
+                                    : null
+                                )
+                            : null
+                        : null}
                     </div>
                         <div>
                             {item.by}

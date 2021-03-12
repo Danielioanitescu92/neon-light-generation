@@ -4,9 +4,11 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 import { getSpecificItems } from '../../../../../../../store/actions/itemActions'
+import { getItemsFiles, goItemsFiles } from '../../../../../../../store/actions/imageActions'
 import { addView } from '../../../../../../../store/actions/otherActions'
 import { getUsers } from '../../../../../../../store/actions/userActions'
 import Subscribe from '../../../../../../../components/Subscribe'
+import AdBanner from '../components/AdBanner'
 
 const Index = () => {    
     const dispatch = useDispatch()
@@ -16,6 +18,9 @@ const Index = () => {
     const items = useSelector(state => state.item.items.results)
     const next = useSelector(state => state.item.items.next)
     const userz = useSelector(state => state.user.users)
+    const picz = useSelector(state => state.file.files.items)
+    const piczLoading = useSelector(state => state.file.loadingIt)
+    const itemzLoading = useSelector(state => state.item.loading)
 
     const [ query, setQuery ] = useState('')
     const [ search, setSearch ] = useState(null)
@@ -92,6 +97,22 @@ const Index = () => {
             sessionStorage.setItem(`viewAdded`, 'true')
         }
     }, [])
+
+    useEffect(() => {
+        // BRING NEW IMAGES
+        if(!piczLoading) {
+            if(!itemzLoading) {
+                if(items) {
+                    dispatch(goItemsFiles());
+                    if(items.length > 0) {
+                        items.map(item => {
+                            dispatch(getItemsFiles([item.picUrl]))
+                        })
+                    }
+                }
+            }
+        }
+    }, [items])
 
     useEffect(() => {
         jump(search, author, page, sort)
@@ -227,7 +248,17 @@ const Index = () => {
                 items.map((item) => (
                 <div key={item._id}>
                     <div>
-                        <img key={item.picUrl} src={item.picUrl} alt={item.title} width="50" height="50"></img>
+                        {picz ?
+                            picz.length > 0 ?
+                                picz.map(pic =>
+                                    pic === null ?
+                                        null
+                                    : pic.filename === item.picUrl ?
+                                        <img key={pic._id} src={`/api/uploads/image/${pic.filename}`} alt={item.title} width="50" height="50"></img>
+                                    : null
+                                )
+                            : null
+                        : null}
                     </div>
                         <div>
                             {item.by}

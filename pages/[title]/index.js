@@ -11,7 +11,6 @@ import { getThisUser } from '../../store/actions/userActions'
 import { v4 as uuidv4 } from 'uuid'
 
 import Image from 'next/image'
-// import unknown from '../../public/unknown.png'
 
 import AdBanner from '../../components/AdBanner'
 
@@ -33,6 +32,7 @@ const ItemPage = ({ item, originPath }) => {
     let uniq = 'no'
 
     useEffect(() => {
+        console.log("window.location.href: ", window.location.href)
         if(originPath) {
             console.log("originPath: ", originPath)
         }
@@ -179,7 +179,6 @@ const ItemPage = ({ item, originPath }) => {
                     <title>{item.title}</title>
                     <meta property="og:description" content={item.subtitle}/>
                     <meta property="og:image" content={`${originPath}/api/uploads/image/${item.picUrl}`}/>
-                    {/* <meta property="og:image" content={item.picUrl}/> */}
                 </Head>
         
                 {item ?
@@ -187,7 +186,6 @@ const ItemPage = ({ item, originPath }) => {
         
                         <div>
                             <div>
-                                {/* <img src={item.picUrl} alt={item.title} width="50" height="50"></img> */}
                                 {picz ?
                                     picz.length > 0 ?
                                         picz.map(pic =>
