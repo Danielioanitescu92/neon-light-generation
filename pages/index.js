@@ -31,6 +31,8 @@ const Index = () => {
     const [ isOpenFilters, setIsOpenFilters ] = useState(false)
     const [ isOpenAuthor, setIsOpenAuthor ] = useState(false)
     const [ isOpenSort, setIsOpenSort ] = useState(false)
+    const [ uniq, setUniq ] = useState('no')
+    const [ uniqDone, setUniqDone ] = useState(false)
 
     const jump = (search, author, page, sort) => {
         // ITEMS
@@ -85,29 +87,27 @@ const Index = () => {
         if (localStorage.getItem(`userId`)) {
             if (sessionStorage.getItem(`userId`)) {
                 if (localStorage.getItem(`userId`) === sessionStorage.getItem(`userId`)) {
-                    const theView = {
-                        way: window.location.href,
-                        unique: 'unique',
-                        screenSize: window.screen.width
-                    }
-                    if (!sessionStorage.getItem(`viewAdded`)) {
-                        dispatch(addView(theView))
-                        sessionStorage.setItem(`viewAdded`, 'true')
-                    }
-                } else {
-                    const theView = {
-                        way: window.location.href,
-                        unique: 'no',
-                        screenSize: window.screen.width
-                    }
-                    if (!sessionStorage.getItem(`viewAdded`)) {
-                        dispatch(addView(theView))
-                        sessionStorage.setItem(`viewAdded`, 'true')
-                    }
+                    setUniq('unique')
                 }
             }
         }
+        setUniqDone(true)
     }, [])
+
+    useEffect(() => {
+        if(uniqDone) {
+            const theView = {
+                way: window.location.href,
+                unique: uniq,
+                screenSize: window.screen.width
+            }
+            if (!sessionStorage.getItem(`viewAdded`)) {
+                dispatch(addView(theView))
+                sessionStorage.setItem(`viewAdded`, 'true')
+            }
+        }
+        setUniqDone(false)
+    }, [uniqDone])
 
     useEffect(() => {
         // BRING NEW IMAGES
