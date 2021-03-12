@@ -32,10 +32,6 @@ const ItemPage = ({ item, originPath }) => {
     let uniq = 'no'
 
     useEffect(() => {
-        console.log("window.location.href: ", window.location.href)
-        if(originPath) {
-            console.log("originPath: ", originPath)
-        }
         if(item) {
             dispatch(getThisItem(item.title))
             dispatch(getThisUser(item.by))  
@@ -74,7 +70,6 @@ const ItemPage = ({ item, originPath }) => {
             user.map(us => {
                 if(us.name === item.by) {
                     if(us.avatar !== 'unknown.png') {
-                        console.log("US AV: ", us.avatar)
                         dispatch(getAvatarsFile([us.avatar]))
                     }
                 }
