@@ -32,6 +32,7 @@ const ItemPage = ({ item, originPath }) => {
     let uniq = 'no'
 
     useEffect(() => {
+        console.log("FIRST, SSR ITEM: ", item)
         if(item) {
             dispatch(getThisItem(item.title))
             dispatch(getThisUser(item.by))  
