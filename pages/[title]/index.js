@@ -4,30 +4,50 @@ import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Link from 'next/link'
 import { getThisItem, addView } from '../../store/actions/itemActions'
+import { getItemsFiles, goItemsFiles, getAvatarsFile } from '../../store/actions/imageActions'
 import { getThisComms, addComment, addLike, removeLike } from '../../store/actions/commentActions'
 import { getThisReps, addReply, addRLike, removeRLike } from '../../store/actions/replyActions'
 import { getThisUser } from '../../store/actions/userActions'
 import { v4 as uuidv4 } from 'uuid'
 
+import Image from 'next/image'
+// import unknown from '../../public/unknown.png'
+
 import AdBanner from '../../components/AdBanner'
 
 import dbConnect from '../../utils/dbConnect'
 import Item from '../../models/Item'
+import absoluteUrl from 'next-absolute-url'
 
-const ItemPage = ({ item }) => {
+const ItemPage = ({ item, originPath }) => {
     const dispatch = useDispatch()
     const router = useRouter()
 
     const commentz = useSelector(state => state.comment.comments)
     const repliez = useSelector(state => state.reply.replies)
+    const picz = useSelector(state => state.file.files.items)
+    const avatarz = useSelector(state => state.file.files.avatars)
+    const user = useSelector(state => state.user.users)
+    const piczLoading = useSelector(state => state.file.loadingIt)
+    const itemzLoading = useSelector(state => state.item.loading)
     let uniq = 'no'
 
     useEffect(() => {
+        if(originPath) {
+            console.log("originPath: ", originPath)
+        }
         if(item) {
             dispatch(getThisItem(item.title))
             dispatch(getThisUser(item.by))  
             dispatch(getThisComms(item._id))
             dispatch(getThisReps(item._id))
+            if(item.picUrl) {
+                if(!piczLoading) {
+                    if(!itemzLoading) {
+                        dispatch(getItemsFiles([item.picUrl]))
+                    }
+                }
+            }
         }
         if (localStorage.getItem(`userId`)) {
             if (sessionStorage.getItem(`userId`)) {
@@ -47,6 +67,20 @@ const ItemPage = ({ item }) => {
             sessionStorage.setItem(`viewAdded`, 'true')
         }
     }, [])
+
+    useEffect(() => {
+        // BRING AVATAR IMAGES
+        if(user.length > 0) {
+            user.map(us => {
+                if(us.name === item.by) {
+                    if(us.avatar !== 'unknown.png') {
+                        console.log("US AV: ", us.avatar)
+                        dispatch(getAvatarsFile([us.avatar]))
+                    }
+                }
+            })
+        }
+    }, [user])
 
     const [ name, setName ] = useState('')
     const [ email, setEmail ] = useState('')
@@ -144,7 +178,8 @@ const ItemPage = ({ item }) => {
                 <Head>
                     <title>{item.title}</title>
                     <meta property="og:description" content={item.subtitle}/>
-                    <meta property="og:image" content={item.picUrl}/>
+                    <meta property="og:image" content={`${originPath}/api/uploads/image/${item.picUrl}`}/>
+                    {/* <meta property="og:image" content={item.picUrl}/> */}
                 </Head>
         
                 {item ?
@@ -152,12 +187,42 @@ const ItemPage = ({ item }) => {
         
                         <div>
                             <div>
-                                <img src={item.picUrl} alt={item.title} width="50" height="50"></img>
+                                {/* <img src={item.picUrl} alt={item.title} width="50" height="50"></img> */}
+                                {picz ?
+                                    picz.length > 0 ?
+                                        picz.map(pic =>
+                                            pic === null ?
+                                                null
+                                            : pic.filename === item.picUrl ?
+                                                <img key={pic._id} src={`/api/uploads/image/${pic.filename}`} alt={item.title} width="50" height="50"></img>
+                                            : null
+                                        )
+                                    : null
+                                : null}
                             </div>
                             <div>
                                 <Link href="/author/[author]" as={`/author/${item.by}`}>
                                     <p>{item.by}</p>
                                 </Link>
+                                {user ?
+                                    user.map(us =>
+                                        us.name === item.by ?
+                                            us.avatar === 'unknown.png' ?
+                                                <Image key={us._id} src="/unknown.png" alt="me" width="64" height="64" />
+                                            : avatarz ?
+                                                avatarz.length > 0 ?
+                                                    avatarz.map(av =>
+                                                        av === null ?
+                                                            null
+                                                        : av ?
+                                                            <img key={av._id} src={`/api/uploads/image/${av.filename}`} alt={item.by} width="50" height="50"></img>
+                                                        : null
+                                                    )
+                                                : null
+                                            : null
+                                        : null
+                                    )
+                                : null}
                             </div>
                             <div>
                                 <p>{item.views.total} views</p>
@@ -319,11 +384,17 @@ const ItemPage = ({ item }) => {
     )
 }
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ req, query }) {
     try {
         await dbConnect()
         const itm = await Item.find({title: decodeURI(query.title)})
-        return { props: { item: JSON.parse(JSON.stringify(itm[0])) } }
+        const { origin } = absoluteUrl(req)
+        return {
+            props: {
+                item: JSON.parse(JSON.stringify(itm[0])),
+                originPath: origin
+            } 
+        }
     } catch {
         return { props: {} }
     }

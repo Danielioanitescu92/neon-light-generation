@@ -7,9 +7,48 @@ const TermsConSchema = new mongoose.Schema({
         default: "1"
     },
     text: {
-        type: String,
-        required: true,
-        default: "Lorem Ipsum"
+        blocks: [
+            {
+                type: {
+                    type: String,
+                    required: true
+                },
+                data: {
+                    alignment: {
+                        type: String
+                    },
+                    caption: {
+                        type: String
+                    },
+                    text: {
+                        type: String
+                    },
+                    level: {
+                        type: Number
+                    },
+                    link: {
+                        type: String
+                    },
+                    meta: {
+                        type: Object
+                    },
+                    message: {
+                        type: String
+                    },
+                    title: {
+                        type: String
+                    },
+                    style: {
+                        type: String
+                    },
+                    items: [
+                        {
+                            type: String
+                        }
+                    ]
+                }
+            },
+        ]
     }
 });
 
