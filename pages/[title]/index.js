@@ -382,7 +382,7 @@ const ItemPage = ({ item, originPath, qu }) => {
 export async function getServerSideProps({ req, query }) {
     try {
         await dbConnect()
-        const itm = await Item.find({title: decodeURI(query.title)})
+        const itm = await Item.find({title: { $regex: decodeURI(query.title), $options: "i" }})
         const { origin } = absoluteUrl(req)
         return {
             props: {
