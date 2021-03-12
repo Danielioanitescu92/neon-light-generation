@@ -18,7 +18,7 @@ import dbConnect from '../../utils/dbConnect'
 import Item from '../../models/Item'
 import absoluteUrl from 'next-absolute-url'
 
-const ItemPage = ({ item, originPath, qu, re }) => {
+const ItemPage = ({ item, originPath, qu }) => {
     const dispatch = useDispatch()
     const router = useRouter()
 
@@ -34,7 +34,6 @@ const ItemPage = ({ item, originPath, qu, re }) => {
     useEffect(() => {
         console.log("SSR ITEM: ", item)
         console.log("SSR query.title: ", qu)
-        console.log("SSR req: ", re)
         if(item) {
             dispatch(getThisItem(item.title))
             dispatch(getThisUser(item.by))  
@@ -389,8 +388,7 @@ export async function getServerSideProps({ req, query }) {
             props: {
                 item: JSON.parse(JSON.stringify(itm[0])),
                 originPath: origin,
-                qu: query.title,
-                re: req
+                qu: query.title
             } 
         }
     } catch {
