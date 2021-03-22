@@ -36,16 +36,16 @@ const Subscribe = () => {
     }
 
     return (
-        <div>
-            <div>
+        <section>
+            <header>
                 {msg ? <h3>{msg}</h3> : null}
-            </div>
+            </header>
 
             <form onSubmit={subscribeEmail}>
                 <input type="text" value={email} onChange={handleEmail}></input>
                 <input type="submit" value="Subscribe"></input>
             </form>
-        </div>
+        </section>
     )
 }
 

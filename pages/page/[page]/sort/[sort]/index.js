@@ -182,24 +182,26 @@ const Index = () => {
     }
 
     return (
-        <div>
+        <main>
 
             <Head>
                 <title>My Blog</title>
-                    <meta property="og:title" content='My Blog Title'/>
-                    <meta property="og:description" content='My Blog Description'/>
+                <meta property="og:title" content='My Blog Title'/>
+                <meta property="og:description" content='My Blog Description'/>
             </Head>
 
             <Subscribe/>
                 
-            <form onSubmit={handleSubmit}>
-                <input type="text" value={query} onChange={handleSearch}></input>
-                <input type="submit" value="Search"></input>
-            </form>
+            <section>            
+                <form onSubmit={handleSubmit}>
+                    <input type="text" value={query} onChange={handleSearch}></input>
+                    <input type="submit" value="Search"></input>
+                </form>
+            </section>
 
             <AdBanner/>
 
-            <div>
+            <section>
                 <button onClick={toggleFilters}>Filters</button>
                 {isOpenFilters ?
                     <div>
@@ -212,9 +214,29 @@ const Index = () => {
                                             type="checkbox"
                                             name="author"
                                             id={user.name}
-                                            value={user.name}
+                                            value={
+                                                router.query.author ?
+                                                    
+                                                    router.query.author === user.name ?
+                                                        ''
+                                                    : router.query.author.includes(`${user.name},`) ?
+                                                        router.query.author.replace(`${user.name},`,'')
+                                                    : router.query.author.includes(`,${user.name}`) ?
+                                                        router.query.author.replace(`,${user.name}`,'')
+                                                    : `${router.query.author},${user.name}`
+
+                                                : user.name
+                                            }
                                             onChange={handleAuthor}
-                                            defaultChecked={false}
+                                            defaultChecked={
+                                                router.query.author ?
+                                                    router.query.author.includes(user.name) ?
+                                                        true
+                                                    : router.query.author === user.name ?
+                                                        true
+                                                    : false
+                                                : false
+                                            }
                                         ></input>
                                         <p>{user.name}</p>
                                     </div>
@@ -223,97 +245,90 @@ const Index = () => {
                         : null}
                     </div>
                 : null}
-            </div>
+            </section>
                 
             <button onClick={toggleSort}>Sort</button>
             {isOpenSort ?
-                <div>
+                <section>
                     <input type="radio" name="filter" value="descending" onChange={handleDescending} checked={router.query.sort === 'descending' ? true : false}></input> <p>Newest</p>
                     <input type="radio" name="filter" value="ascending" onChange={handleAscending} checked={router.query.sort === 'ascending' ? true : false}></input> <p>Oldest</p>           
                     <input type="radio" name="filter" value="popular" onChange={handlePopular} checked={router.query.sort === 'popular' ? true : false}></input> <p>Most popular</p>
-                </div>
+                </section>
             : null}
         
-            {items ?
-                items.map((item) => (
-                <div key={item._id}>
-                    <div>
-                        {picz ?
-                            picz.length > 0 ?
-                                picz.map(pic =>
-                                    pic === null ?
-                                        null
-                                    : pic.filename === item.picUrl ?
-                                        <img key={pic._id} src={`/api/uploads/image/${pic.filename}`} alt={item.title} width="50" height="50"></img>
-                                    : null
-                                )
-                            : null
-                        : null}
-                    </div>
-                        <div>
-                            {item.by}
-                        </div>
-                        <div>
-                            <p>{item.views.total} views</p>
-                        </div>
-                        <div>
-                            <p>{item.commCount} comments</p>
-                        </div>
-                        <div>
-                        {/* className={styles.iteminside} */}
-                            <div>
-                                <h2>{item.title}</h2>
-                            </div>
-                            <div>
+            <section>
+                {items ?
+                    items.map((item) => (
+                        <article key={item._id}>
+                            {picz ?
+                                picz.length > 0 ?
+                                    picz.map(pic =>
+                                        pic === null ?
+                                            null
+                                        : pic.filename === item.picUrl ?
+                                            <img key={pic._id} src={`/api/uploads/image/${pic.filename}`} alt={item.title} width="50" height="50"></img>
+                                        : null
+                                    )
+                                : null
+                            : null}
+                            <p>
+                                {item.by}
+                            </p>
+                            <p>
+                                {item.views.total} views
+                            </p>
+                            <p>
+                                {item.commCount} comments
+                            </p>
+                            <section>
+                                <header>
+                                    <h2>{item.title}</h2>
+                                </header>
                                 <h4>{item.subtitle}</h4>
-                            </div>
-                            <div>
                                 {item.text ?
                                     item.text.blocks ?
                                         <p>{item.text.blocks.find(elem => elem.type === 'paragraph').data.text.slice(0,10)}[...]</p>
                                     : null
                                 : null}
-                            </div>
-                        </div>
+                            </section>
+                            <p>
+                                {item.date.slice(0,10)} {item.date.slice(11,19)}
+                            </p>
+                            <Link href="/[title]" as={`/${item.title}`}>
+                                <button>View</button>
+                            </Link>
+                        </article>
+                    ))
+                : null}
+                </section>
+
+                {/* PAGINATION */}
+
+                {previous ?
+                    next ?
                         <div>
-                            <p>{item.date.slice(0,10)} {item.date.slice(11,19)}</p>
+                            <button value={previous.page} onClick={togglePage}>{previous.page}</button>
+                            <button disabled>{next.page - 1}</button>
+                            <button value={next.page} onClick={togglePage}>{next.page}</button>
                         </div>
-                    <div>
-                    <Link href="/[title]" as={`/${item.title}`}>
-                        <button>View</button>
-                    </Link>
-                    </div>  
-                </div>
-                ))
-            : null}
-
-            {/* PAGINATION */}
-
-            {previous ?
-                next ?
-                    <div>
+                    : <div>
                         <button value={previous.page} onClick={togglePage}>{previous.page}</button>
+                        <button disabled>{previous.page + 1}</button>
+                    </div>
+                : next ?
+                    <div>
                         <button disabled>{next.page - 1}</button>
                         <button value={next.page} onClick={togglePage}>{next.page}</button>
                     </div>
-                : <div>
-                    <button value={previous.page} onClick={togglePage}>{previous.page}</button>
-                    <button disabled>{previous.page + 1}</button>
-                </div>
-            : next ?
-                <div>
-                    <button disabled>{next.page - 1}</button>
-                    <button value={next.page} onClick={togglePage}>{next.page}</button>
-                </div>
-            : null}
+                : null}
 
-            {/* PAGINATION */}
+                {/* PAGINATION */}
 
             {/* <footer>
                 ...
             </footer> */}
 
-        </div>
+        </main>
     )
 }
 

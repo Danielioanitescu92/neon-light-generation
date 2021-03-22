@@ -1,5 +1,4 @@
-import '../css/style.css'
-import '../css/form.css'
+import styles from '../css/Forapp.module.css'
 import { Provider } from 'react-redux'
 import { useStore } from '../store'
 import AppNavbar from '../components/AppNavbar'
@@ -135,7 +134,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <div className="grid wrapper">
+      <div className={styles.grid}>
         <Provider store={store}>
           <AppNavbar/>
           <Component {...pageProps} />

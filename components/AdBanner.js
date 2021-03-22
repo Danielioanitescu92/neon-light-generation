@@ -12,17 +12,19 @@ const AdBanner = () => {
     }, [])
 
     return (
-        <ins
-            className="adsbygoogle adbanner-customize"
-            style={{ display: "block" }}
-            data-ad-client={GA_TRACKING_ID}
-            // data-ad-slot={slot-id}
-            // data-ad-layout={layout}
-            // data-ad-layout-key={layoutKey}
-            // data-ad-format={format}
-            // data-full-width-responsive={responsive}
-            // enable_page_level_ads: true
-        />
+        <section>
+            <ins
+                className="adsbygoogle adbanner-customize"
+                style={{ display: "block" }}
+                data-ad-client={GA_TRACKING_ID}
+                // data-ad-slot={slot-id}
+                // data-ad-layout={layout}
+                // data-ad-layout-key={layoutKey}
+                // data-ad-format={format}
+                // data-full-width-responsive={responsive}
+                // enable_page_level_ads: true
+            />
+        </section>
     )
 }
 

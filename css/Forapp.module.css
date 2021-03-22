@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-family: 'Open Sans', sans-serif;
+  box-sizing: border-box;
+}

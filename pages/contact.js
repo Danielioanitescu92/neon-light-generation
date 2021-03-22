@@ -62,29 +62,27 @@ const ContactAdmin = () => {
     }
 
     return (
-        <div>
-            <div>
+        <main>
+            <section>
                 {msg ? <h3>{msg}</h3> : null}
-            </div>
-            <div>
-                <div>
+            </section>
+            <section>
+                <header>
                     <h1>Contact admin</h1>
-                </div>
-                <div>
-                    <form id="form" onSubmit={submitEdit}>
-                        <label>Name</label>
-                            <input name="name" value={name} onChange={handleName}></input>
-                        <label>Email</label>
-                            <input name="email" value={email} onChange={handleEmail}></input>
-                        <label>Subject</label>
-                            <input name="subject" value={subject} onChange={handleSubject}></input>
-                        <label>Text</label>
-                            <textarea name="text" value={text} onChange={handleText} />
-                        <input type="submit" value={"Submit"} ></input>
-                    </form>
-                </div>
-            </div>
-        </div>
+                </header>
+                <form id="form" onSubmit={submitEdit}>
+                    <label>Name</label>
+                        <input name="name" value={name} onChange={handleName}></input>
+                    <label>Email</label>
+                        <input name="email" value={email} onChange={handleEmail}></input>
+                    <label>Subject</label>
+                        <input name="subject" value={subject} onChange={handleSubject}></input>
+                    <label>Text</label>
+                        <textarea name="text" value={text} onChange={handleText} />
+                    <input type="submit" value={"Submit"} ></input>
+                </form>
+            </section>
+        </main>
     )
 }
 
