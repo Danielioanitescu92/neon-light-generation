@@ -34,7 +34,6 @@ const ItemPage = ({ item, originPath, qu }) => {
     const itemzLoading = useSelector(state => state.item.loading)
     const newest = useSelector(state => state.item.newest)
     const popular = useSelector(state => state.item.popular)
-    let uniq = 'no'
     
     const [ msg, setMsg ] = useState('')
     
@@ -74,19 +73,30 @@ const ItemPage = ({ item, originPath, qu }) => {
         if (localStorage.getItem(`userId`)) {
             if (sessionStorage.getItem(`userId`)) {
                 if (localStorage.getItem(`userId`) === sessionStorage.getItem(`userId`)) {
-                    uniq = 'unique'
+                    const uniq = 'unique'
+                    const theView = {
+                        post: item._id,
+                        way: window.location.href,
+                        unique: uniq,
+                        screenSize: window.screen.width
+                    }
+                    if (!sessionStorage.getItem(`viewAdded`)) {
+                        dispatch(addView(theView))
+                        sessionStorage.setItem(`viewAdded`, 'true')
+                    }
+                } else {
+                    const uniq = 'no'
+                    const theView = {
+                        way: window.location.href,
+                        unique: uniq,
+                        screenSize: window.screen.width
+                    }
+                    if (!sessionStorage.getItem(`viewAdded`)) {
+                        dispatch(addView(theView))
+                        sessionStorage.setItem(`viewAdded`, 'true')
+                    }
                 }
             }
-        }
-        let theView = {
-            post: item._id,
-            way: window.location.href,
-            unique: uniq,
-            screenSize: window.screen.width
-        }
-        dispatch(addView(theView))
-        if (!sessionStorage.getItem(`viewAdded`)) {
-            sessionStorage.setItem(`viewAdded`, 'true')
         }
     }, [])
 
