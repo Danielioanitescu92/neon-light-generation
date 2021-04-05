@@ -225,10 +225,10 @@ const Index = () => {
             : null}
 
             <Head>
-                <title>My Blog</title>
-                <meta property="og:title" content='My Blog Title'/>
-                <meta property="og:description" content='My Blog Description'/>
-                <link rel="icon" href="/favicon.ico" />
+                <title>Neon Light Generation</title>
+                <meta property="og:title" content='Neon Light Generation'/>
+                <meta property="og:description" content='Welcoming ideas that can be added by any neon light design enthusiast.'/>
+                <link rel="icon" href="favicon.ico" />
             </Head>
 
             <AdBanner/>
