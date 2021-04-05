@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import styles from '../css/Aboutus.module.css'
 import { useSelector, useDispatch } from 'react-redux'
+import Head from 'next/head'
 
 import { getAb } from '../store/actions/aboutActions'
 import { goItems } from '../store/actions/itemActions'

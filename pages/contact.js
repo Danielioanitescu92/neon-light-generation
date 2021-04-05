@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styles from '../css/Contact.module.css'
 import { useSelector, useDispatch } from 'react-redux'
+import Head from 'next/head'
 
 import { clearErrors } from '../store/actions/errorActions'
 import { goUsers, contAdmin } from '../store/actions/userActions'

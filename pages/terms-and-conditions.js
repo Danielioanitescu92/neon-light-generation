@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import styles from '../css/TAC.module.css'
 import { useSelector, useDispatch } from 'react-redux'
+import Head from 'next/head'
 
 import { getTc } from '../store/actions/tcActions'
 import { goPp } from '../store/actions/ppActions'
