@@ -174,8 +174,37 @@
 
 .picdiv {
     width: 100%;
-    height: 40vh;
+    height: auto;
     margin: 2vh 0 2vh 0;
+}
+
+.tagsdiv {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.tag {
+    width: 100px;
+    height: 36px;
+    margin: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 5px 5px 5px rgba(46, 54, 68, 0.1);
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    transition-duration: 0.3s;
+}
+
+
+
+.divider {
+    width: 100%;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 2vh 0 0 0;
 }
 
 
@@ -192,6 +221,7 @@
     width: 50px;
     height: 50px;
     border-radius: 25px;
+    margin: 10px;
 }
 
 .usersdivinfo {
@@ -307,7 +337,6 @@
 .textblocks * {
     margin: 1vw 0 1vw 0;
     box-sizing: border-box;
-    font-weight: 900;
 }
 
 .blockheader {
@@ -410,4 +439,29 @@
 
 .warndiv p {
     font-size: 16px;
+}
+
+
+
+
+
+
+
+
+@media screen and (max-width: 425px) {
+
+    .mainlist {
+        flex-direction: column;
+    }
+
+    .itemslist {
+        width: 100%;
+        margin: 5px;
+    }
+
+    .asside {
+        width: 100%;
+        margin: 5px;
+    }
+
 }

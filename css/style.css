@@ -108,3 +108,18 @@ a[disabled] {
     color: rgba(0, 0, 0, 1) !important;
     box-shadow: 5px 5px 5px rgba(46, 54, 68, 0.5) !important;
 }
+
+
+
+
+
+
+
+
+@media screen and (max-width: 768px) {
+
+    * {
+        font-size: 0.9rem;
+    }
+
+}

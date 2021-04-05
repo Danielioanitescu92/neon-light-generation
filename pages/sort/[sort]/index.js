@@ -226,9 +226,9 @@ const Index = () => {
                 
                 <article className={styles.filters}>
                     <div>
-                        <button onClick={toggleFilters}>Filters</button>
+                        <button onClick={toggleFilters} disabled={ piczLoading ? true : itemzLoading ? true : false }>Filters</button>
                         {isOpenFilters ?
-                            <div className={styles.isopenfilters}>
+                            <div className={styles.isopenfilters} disabled={ piczLoading ? true : itemzLoading ? true : false }>
                                 <button onClick={toggleAuthor}>Author</button>
                                 {isOpenAuthor ?
                                     userz ?
@@ -272,7 +272,7 @@ const Index = () => {
                         : null}
                     </div>
                     <div>           
-                        <button onClick={toggleSort} className={styles.lastbtn}>Sort</button>
+                        <button onClick={toggleSort} className={styles.lastbtn} disabled={ piczLoading ? true : itemzLoading ? true : false }>Sort</button>
                         {isOpenSort ?
                             <section className={styles.isopensort}>
                                 <div>
@@ -331,6 +331,29 @@ const Index = () => {
                             </Link>
                         ))
                     : null}
+
+                    {/* PAGINATION */}
+        
+                    {previous ?
+                        next ?
+                            <section className={styles.pagination}>
+                                <button value={previous.page} onClick={togglePage} disabled={ piczLoading ? true : itemzLoading ? true : false }>{previous.page}</button>
+                                <button disabled>{next.page - 1}</button>
+                                <button className={styles.lastbtn} value={next.page} onClick={togglePage} disabled={ piczLoading ? true : itemzLoading ? true : false }>{next.page}</button>
+                            </section>
+                        : <section className={styles.pagination}>
+                            <button value={previous.page} onClick={togglePage} disabled={ piczLoading ? true : itemzLoading ? true : false }>{previous.page}</button>
+                            <button className={styles.lastbtn} disabled>{previous.page + 1}</button>
+                        </section>
+                    : next ?
+                        <section className={styles.pagination}>
+                            <button disabled>{next.page - 1}</button>
+                            <button className={styles.lastbtn} value={next.page} onClick={togglePage} disabled={ piczLoading ? true : itemzLoading ? true : false }>{next.page}</button>
+                        </section>
+                    : null}
+        
+                    {/* PAGINATION */}
+                    
                 </section>
 
                 <section className={styles.asside}>
@@ -399,28 +422,6 @@ const Index = () => {
                 </section>
                 
             </section>
-
-            {/* PAGINATION */}
-
-            {previous ?
-                next ?
-                    <section className={styles.pagination}>
-                        <button value={previous.page} onClick={togglePage}>{previous.page}</button>
-                        <button disabled>{next.page - 1}</button>
-                        <button className={styles.lastbtn} value={next.page} onClick={togglePage}>{next.page}</button>
-                    </section>
-                : <section className={styles.pagination}>
-                    <button value={previous.page} onClick={togglePage}>{previous.page}</button>
-                    <button className={styles.lastbtn} disabled>{previous.page + 1}</button>
-                </section>
-            : next ?
-                <section className={styles.pagination}>
-                    <button disabled>{next.page - 1}</button>
-                    <button className={styles.lastbtn} value={next.page} onClick={togglePage}>{next.page}</button>
-                </section>
-            : null}
-
-            {/* PAGINATION */}
 
         </main>
     )

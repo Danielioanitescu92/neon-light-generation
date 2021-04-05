@@ -6,13 +6,9 @@ const Footer = () => {
     return (
         <footer className={styles.footer}>
             
-            <div>
-                <h4 className={styles.footerlink}>Developed by Daniel</h4>
-            </div>
+            <h4 className={styles.footerh}>Developed by Daniel</h4>
 
-            <div>
-                <h4 className={styles.footerlink}>© Neon Light Generation 2021</h4>
-            </div>
+            <h4 className={styles.footerh}>© Neon Light Generation 2021</h4>
 
             <Link href="/">
                 <h4 className={styles.footerlink}>Home</h4>

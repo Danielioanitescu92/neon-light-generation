@@ -24,7 +24,7 @@ import absoluteUrl from 'next-absolute-url'
 const ItemPage = ({ item, originPath, qu }) => {
     const dispatch = useDispatch()
     const router = useRouter()
-
+    
     const commentz = useSelector(state => state.comment.comments)
     const repliez = useSelector(state => state.reply.replies)
     const picz = useSelector(state => state.file.files.items)
@@ -292,7 +292,7 @@ const ItemPage = ({ item, originPath, qu }) => {
                                                     </section>
                                                 </article>
                                             : elem.type === 'linkTool' ?
-                                                <a className={styles.linktool} href={elem.data.link} key={elem.data.link}>
+                                                <a className={styles.linktool} href={piczLoading ? "#" : itemzLoading ? "#" : elem.data.link} key={elem.data.link}>
                                                     <b>{elem.data.link}</b>
                                                 </a>
                                             : elem.type === 'warning' ?
@@ -312,15 +312,14 @@ const ItemPage = ({ item, originPath, qu }) => {
                                 <article className={styles.tagsdiv}>
                                     {item.tags.map(t =>
                                         t.tag !== '' ?
-                                            <div key={t._id}>
-                                                <Link href="/search/[search]" as={`/search/${t.tag}`}>
-                                                    <p className={styles.tag}>{t.tag}</p>
-                                                </Link>
-                                            </div>
+                                            <Link href="/search/[search]" as={`/search/${t.tag}`} key={t._id}>
+                                                <p className={styles.tag}>{t.tag}</p>
+                                            </Link>
                                         : null
                                     )}
                                 </article>
                             : null}
+                            <div className={styles.divider}></div>
                             {user ?
                                 user.map(us =>
                                     us.name === item.by ?
@@ -343,22 +342,22 @@ const ItemPage = ({ item, originPath, qu }) => {
                                                 <p className={styles.aboutme}>{us.aboutme}</p>
                                                 {us.facebook ?                                                
                                                     <Link href={`https://${us.facebook}`}>
-                                                        <a>{us.facebook}</a>
+                                                        <button>Facebook</button>
                                                     </Link>
                                                 : null}
                                                 {us.instagram ?                                                
                                                     <Link href={`https://${us.instagram}`}>
-                                                        <a>{us.instagram}</a>
+                                                        <button>Instagram</button>
                                                     </Link>
                                                 : null}
                                                 {us.twitter ?                                                
                                                     <Link href={`https://${us.twitter}`}>
-                                                        <a>{us.twitter}</a>
+                                                        <button>Twitter</button>
                                                     </Link>
                                                 : null}
                                                 {us.youtube ?                                                
                                                     <Link href={`https://${us.youtube}`}>
-                                                        <a>{us.youtube}</a>
+                                                        <button>Youtube</button>
                                                     </Link>
                                                 : null}
                                             </article>
@@ -390,13 +389,13 @@ const ItemPage = ({ item, originPath, qu }) => {
                                                     {
                                                         comm.likes.length > 0 ?
                                                             comm.likes.some(lk => lk.userId === localStorage.getItem(`userId`)) ?
-                                                                <button value={comm._id} onClick={handleCommUnlike} disabled={!localStorage.getItem(`userId`) ? true : false}>Unlike</button>
-                                                            : <button value={comm._id} onClick={handleCommLike} disabled={!localStorage.getItem(`userId`) ? true : false}>Like</button>
-                                                        : <button value={comm._id} onClick={handleCommLike} disabled={!localStorage.getItem(`userId`) ? true : false}>Like</button>
+                                                                <button value={comm._id} onClick={handleCommUnlike} disabled={!localStorage.getItem(`userId`) ? true : piczLoading ? true : itemzLoading ? true : false}>Unlike</button>
+                                                            : <button value={comm._id} onClick={handleCommLike} disabled={!localStorage.getItem(`userId`) ? true : piczLoading ? true : itemzLoading ? true : false}>Like</button>
+                                                        : <button value={comm._id} onClick={handleCommLike} disabled={!localStorage.getItem(`userId`) ? true : piczLoading ? true : itemzLoading ? true : false}>Like</button>
                                                     }
                                                 </section>
                                                 <a href='#form'>
-                                                    <button id={comm._id} onClick={handleReply}>Reply</button>
+                                                    <button id={comm._id} onClick={handleReply} disabled={ piczLoading ? true : itemzLoading ? true : false }>Reply</button>
                                                 </a>
                                             </section>
 
@@ -416,9 +415,9 @@ const ItemPage = ({ item, originPath, qu }) => {
                                                                     {
                                                                         rep.likes.length > 0 ?
                                                                             rep.likes.some(lk => lk.userId === localStorage.getItem(`userId`)) ?
-                                                                                <button value={rep._id} onClick={handleRepUnlike} disabled={!localStorage.getItem(`userId`) ? true : false}>Unlike</button>
-                                                                            : <button value={rep._id} onClick={handleRepLike} disabled={!localStorage.getItem(`userId`) ? true : false}>Like</button>
-                                                                        : <button value={rep._id} onClick={handleRepLike} disabled={!localStorage.getItem(`userId`) ? true : false}>Like</button>
+                                                                                <button value={rep._id} onClick={handleRepUnlike} disabled={!localStorage.getItem(`userId`) ? true : piczLoading ? true : itemzLoading ? true : false}>Unlike</button>
+                                                                            : <button value={rep._id} onClick={handleRepLike} disabled={!localStorage.getItem(`userId`) ? true : piczLoading ? true : itemzLoading ? true : false}>Like</button>
+                                                                        : <button value={rep._id} onClick={handleRepLike} disabled={!localStorage.getItem(`userId`) ? true : piczLoading ? true : itemzLoading ? true : false}>Like</button>
                                                                     }
                                                                 </section>
                                                             </section>
@@ -443,7 +442,7 @@ const ItemPage = ({ item, originPath, qu }) => {
                                         <input name="email" type="text" value={email} onChange={handleEmail}></input>
                                     <label>Comment</label>
                                         <textarea name="comment" rows="5" value={comment} onChange={handleComment}></textarea>
-                                        <input className={styles.firstbtn} type="submit" value={reply ? "Add Reply" : "Add comment"} ></input>
+                                        <input className={styles.firstbtn} type="submit" value={reply ? "Add Reply" : "Add comment"} disabled={piczLoading ? true : itemzLoading ? true : false}></input>
                                 </form>
             
                             </section>

@@ -6,6 +6,9 @@ import { clearErrors } from '../store/actions/errorActions'
 
 const Subscribe = () => {
 
+    const piczLoading = useSelector(state => state.file.loadingIt)
+    const itemzLoading = useSelector(state => state.item.loading)
+    
     const [ email, setEmail ] = useState('')
     const [ go, setGo ] = useState(false)    
     const dispatch = useDispatch()    
@@ -39,7 +42,7 @@ const Subscribe = () => {
 
             <form onSubmit={subscribeEmail} className={styles.searchform}>
                 <input type="text" value={email} onChange={handleEmail}></input>
-                <input type="submit" value="Subscribe" className={styles.lastbtn}></input>
+                <input type="submit" value="Subscribe" className={styles.lastbtn} disabled={piczLoading ? true : itemzLoading ? true : false}></input>
             </form>
         </section>
     )

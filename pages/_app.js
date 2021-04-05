@@ -135,10 +135,11 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <AppNavbar/>
       <div>
         <Provider store={store}>
+          <AppNavbar/>
           <Component {...pageProps} />
+          <Footer/>
         </Provider>
         
         <div 
@@ -179,7 +180,6 @@ function MyApp({ Component, pageProps }) {
         </div>
 
       </div>
-      <Footer/>
     </>
   )
 }
