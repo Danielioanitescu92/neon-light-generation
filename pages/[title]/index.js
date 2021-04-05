@@ -11,6 +11,9 @@ import { getThisReps, addReply, addRLike, removeRLike } from '../../store/action
 import { getThisUser } from '../../store/actions/userActions'
 import { v4 as uuidv4 } from 'uuid'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
+
 import Image from 'next/image'
 
 import AdBanner from '../../components/AdBanner'
@@ -22,6 +25,8 @@ import Item from '../../models/Item'
 import absoluteUrl from 'next-absolute-url'
 
 const ItemPage = ({ item, originPath, qu }) => {
+    const warnnn = <FontAwesomeIcon icon={faExclamationTriangle} />
+    
     const dispatch = useDispatch()
     const router = useRouter()
     
