@@ -62,29 +62,37 @@ const ContactAdmin = () => {
     }
 
     return (
-        <main className={styles.main}>
-            {msg ?
-                <section className={styles.msg}>
-                    <h3>{msg}</h3>
+        <>
+            <Head>
+                <title>Neon Light Generation</title>
+                <meta property="og:title" content='Neon Light Generation'/>
+                <meta property="og:description" content='Welcoming ideas that can be added by any neon light design enthusiast.'/>
+                <link rel="icon" href="/fav.png" />
+            </Head>
+            <main className={styles.main}>
+                {msg ?
+                    <section className={styles.msg}>
+                        <h3>{msg}</h3>
+                    </section>
+                : null}
+                <section className={styles.mainsec}>
+                    <header className={styles.head}>
+                        <h1>Contact admin</h1>
+                    </header>
+                    <form className={styles.form} id="form" onSubmit={submitEdit}>
+                        <label>Name</label>
+                            <input type='text' name="name" value={name} onChange={handleName}></input>
+                        <label>Email</label>
+                            <input type='email' name="email" value={email} onChange={handleEmail}></input>
+                        <label>Subject</label>
+                            <input type='text' name="subject" value={subject} onChange={handleSubject}></input>
+                        <label>Text</label>
+                            <textarea name="text" value={text} onChange={handleText} />
+                        <input type="submit" value={"Submit"} ></input>
+                    </form>
                 </section>
-            : null}
-            <section className={styles.mainsec}>
-                <header className={styles.head}>
-                    <h1>Contact admin</h1>
-                </header>
-                <form className={styles.form} id="form" onSubmit={submitEdit}>
-                    <label>Name</label>
-                        <input type='text' name="name" value={name} onChange={handleName}></input>
-                    <label>Email</label>
-                        <input type='email' name="email" value={email} onChange={handleEmail}></input>
-                    <label>Subject</label>
-                        <input type='text' name="subject" value={subject} onChange={handleSubject}></input>
-                    <label>Text</label>
-                        <textarea name="text" value={text} onChange={handleText} />
-                    <input type="submit" value={"Submit"} ></input>
-                </form>
-            </section>
-        </main>
+            </main>
+        </>
     )
 }
 
