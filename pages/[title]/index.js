@@ -227,7 +227,6 @@ const ItemPage = ({ item, originPath, qu }) => {
                     <meta property="og:title" content={item.title}/>
                     <meta property="og:description" content={item.subtitle}/>
                     <meta property="og:image" content={`${originPath}/api/uploads/image/${item.picUrl}`}/>
-                    <link rel="icon" href="/favicon.ico" />
                 </Head>
                 
                 <AdBanner/>
