@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-// import styles from './Components.module.css'
+import styles from '../css/Aboutus.module.css'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { getAb } from '../store/actions/aboutActions'
@@ -32,53 +32,51 @@ const BlogAbout = () => {
         aboutz ?
             aboutz.map(ab => 
                 ab._id === "1" ?
-                    <main key={ab._id}>
+                    <main className={styles.main} key={ab._id}>
                         <header>
-                            <h1>About Us (for blog)</h1>
+                            <h1>About Us</h1>
                         </header>
-                        <section>
-                            
+                        <section className={styles.textblocks}>
                             {ab.text ?
                                 ab.text.blocks ?
                                     ab.text.blocks.map(elem =>
                                         elem.type === 'header' ?
-                                            <h3 key={elem.data.text}>{elem.data.text}</h3>
+                                            <h3 className={styles.blockheader} key={elem.data.text}>{elem.data.text}</h3>
                                         : elem.type === 'paragraph' ?
-                                            <p key={elem.data.text}>{elem.data.text}</p>
+                                            <p className={styles.blockparagraph} key={elem.data.text}>{elem.data.text}</p>
                                         : elem.type === 'list' ?
                                             elem.data.style === 'ordered' ?
-                                                <ol key={elem._id}>
-                                                    {elem.data.items.map((it, index) => <li key={index}>{it}</li>)}
+                                                <ol className={styles.blocklist} key={Math.floor(Math.random() * 99)}>
+                                                    {elem.data.items.map(it => <li className={styles.listitem} key={it.slice('0,10')}>{it}</li>)}
                                                 </ol>
                                         : 
-                                                <ul key={elem._id}>
-                                                    {elem.data.items.map((it, index) => <li key={index}>{it}</li>)}
+                                                <ul className={styles.blocklist} key={Math.floor(Math.random() * 99)}>
+                                                    {elem.data.items.map(it => <li className={styles.listitem} key={it.slice('0,10')}>{it}</li>)}
                                                 </ul>
                                         : elem.type === 'delimiter' ?
-                                            <h2 key='delimiter'>* * *</h2>
+                                            <h2 className={styles.delimiter} key='delimiter'>* * *</h2>
                                         : elem.type === 'quote' ?
-                                            <article key='quote'>
-                                                <div>
-                                                    <span><h2>"</h2></span>
-                                                    <span><p>{elem.data.text}</p></span>
-                                                    <span><h2>"</h2></span>
+                                            <div className={styles.quote} key='quote'>
+                                                <div className={styles.quotequote}>
+                                                    <h2 className={styles.firstq}>"</h2>
+                                                    <blockquote>{elem.data.text}</blockquote>
+                                                    <h2 className={styles.secondq}>"</h2>
                                                 </div>
-                                                <div>
-                                                    <span><h2>By </h2></span>
-                                                    <blockquote>{elem.data.caption}</blockquote>
+                                                <div className={styles.quoteby}>
+                                                    <i>{elem.data.caption}</i>
                                                 </div>
-                                            </article>
+                                            </div>
                                         : elem.type === 'linkTool' ?
-                                            <a href={elem.data.link} key={elem.data.link}>
+                                            <a className={styles.linktool} href={elem.data.link} key={elem.data.link}>
                                                 <b>{elem.data.link}</b>
                                             </a>
                                         : elem.type === 'warning' ?
-                                            <div key='warning'>
-                                                <article><h2>! </h2></article>
-                                                <article>
+                                            <div className={styles.warning} key='warning'>
+                                                <h2 className={styles.warnsign}>{warnnn}</h2>
+                                                <div className={styles.warndiv}>
                                                     <b>{elem.data.title}</b>
                                                     <p>{elem.data.message}</p>
-                                                </article>
+                                                </div>
                                             </div>
                                         : null
                                     )

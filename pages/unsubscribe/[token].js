@@ -1,4 +1,4 @@
-// import styles from './Components.module.css'
+import styles from '../../css/Unsub.module.css'
 import dbConnect from '../../utils/dbConnect'
 import Subscriber from '../../models/Subscriber'
 import { useDispatch } from 'react-redux'
@@ -15,21 +15,21 @@ const Unsubscribe = ({ msg, subscriber }) => {
     }
 
     return (
-        <div>
+        <main className={styles.main}>
             {msg ? 
                 msg === '' ?
                     null
                 : msg === null ?
                     null
-                : <div>
+                : <section className={styles.msg}>
                     <h5>{msg}</h5>
                     <h3>One more step:</h3>
                     {subscriber ?
                         <button id={subscriber.email} onClick={handleUnsubscribe}>Unsubscribe</button>
                     : null}
-                </div>
+                </section>
             : null}               
-        </div>
+        </main>
     )
 }
 

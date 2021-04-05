@@ -1,6 +1,8 @@
 export const GET_ITEMS = 'GET_ITEMS';
 export const GET_THIS_ITEMS = 'GET_THIS_ITEMS';
 export const GET_PAGINATED_ITEMS = 'GET_PAGINATED_ITEMS';
+export const GET_NEWEST_ITEMS = 'GET_NEWEST_ITEMS';
+export const GET_POPULAR_ITEMS = 'GET_POPULAR_ITEMS';
 export const ITEMS_LOADING = 'ITEMS_LOADING';
 export const GO_ITEMS = 'GO_ITEMS';
 

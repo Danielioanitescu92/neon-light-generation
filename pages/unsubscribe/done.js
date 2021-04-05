@@ -1,4 +1,4 @@
-// import styles from './Components.module.css'
+import styles from '../../css/Unsub.module.css'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
@@ -12,10 +12,12 @@ const Unsubscribe = () => {
     }, [])
 
     return (
-        <div>
-            <h3>Done unsubscribing.</h3>
-            <h5>Redirecting to Home page...</h5>
-        </div>
+        <main className={styles.main}>
+            <section className={styles.msg}>
+                <h3>Done unsubscribing.</h3>
+                <h5>Redirecting to Home page. Please wait a moment.</h5>
+            </section>
+        </main>
     )
 }
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-// import styles from './Components.module.css'
+import styles from '../css/Contact.module.css'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { clearErrors } from '../store/actions/errorActions'
@@ -62,21 +62,23 @@ const ContactAdmin = () => {
     }
 
     return (
-        <main>
-            <section>
-                {msg ? <h3>{msg}</h3> : null}
-            </section>
-            <section>
-                <header>
+        <main className={styles.main}>
+            {msg ?
+                <section className={styles.msg}>
+                    <h3>{msg}</h3>
+                </section>
+            : null}
+            <section className={styles.mainsec}>
+                <header className={styles.head}>
                     <h1>Contact admin</h1>
                 </header>
-                <form id="form" onSubmit={submitEdit}>
+                <form className={styles.form} id="form" onSubmit={submitEdit}>
                     <label>Name</label>
-                        <input name="name" value={name} onChange={handleName}></input>
+                        <input type='text' name="name" value={name} onChange={handleName}></input>
                     <label>Email</label>
-                        <input name="email" value={email} onChange={handleEmail}></input>
+                        <input type='email' name="email" value={email} onChange={handleEmail}></input>
                     <label>Subject</label>
-                        <input name="subject" value={subject} onChange={handleSubject}></input>
+                        <input type='text' name="subject" value={subject} onChange={handleSubject}></input>
                     <label>Text</label>
                         <textarea name="text" value={text} onChange={handleText} />
                     <input type="submit" value={"Submit"} ></input>

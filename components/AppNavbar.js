@@ -7,23 +7,15 @@ const AppNavbar = () => {
         <nav className={styles.appnavbar} >
 
             <Link href="/">
-                <h4 className="navLink">Home</h4>
+                <h3 className={styles.navLink}>Home</h3>
             </Link>
             
             <Link href="/aboutus">
-                <h4 className="navLink">About Us</h4>
+                <h3 className={styles.navLink}>About Us</h3>
             </Link>
             
             <Link href="/contact">
-                <h4 className="navLink">Contact</h4>
-            </Link>
-            
-            <Link href="/privacy-policies">
-                <h4 className="navLink">Privacy Policies</h4>
-            </Link>
-            
-            <Link href="/terms-and-conditions">
-                <h4 className="navLink">Terms and Conds</h4>
+                <h3 className={styles.navLink}>Contact</h3>
             </Link>
 
         </nav>

@@ -3,24 +3,40 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
-import { getSpecificItems } from '../store/actions/itemActions'
+import { getSpecificItems, getNewestArticles, getPopularArticles } from '../store/actions/itemActions'
 import { getItemsFiles, goItemsFiles } from '../store/actions/imageActions'
 import { addView } from '../store/actions/otherActions'
 import { getUsers } from '../store/actions/userActions'
 import Subscribe from '../components/Subscribe'
+import ShortSub from '../components/ShortSub'
 import AdBanner from '../components/AdBanner'
 
+import styles from '../css/Index.module.css'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye } from '@fortawesome/free-solid-svg-icons'
+import { faComments } from '@fortawesome/free-solid-svg-icons'
+
 const Index = () => {
+    const viewspost = <FontAwesomeIcon icon={faEye} />
+    const commentspost = <FontAwesomeIcon icon={faComments} />
+
     const dispatch = useDispatch()
     const router = useRouter()
 
     const previous = useSelector(state => state.item.items.previous)
     const items = useSelector(state => state.item.items.results)
+    const newest = useSelector(state => state.item.newest)
+    const popular = useSelector(state => state.item.popular)
     const next = useSelector(state => state.item.items.next)
     const userz = useSelector(state => state.user.users)
     const picz = useSelector(state => state.file.files.items)
     const piczLoading = useSelector(state => state.file.loadingIt)
     const itemzLoading = useSelector(state => state.item.loading)
+    
+    const [ msg, setMsg ] = useState('')
+    
+    const err = useSelector(state => state.error)
 
     const [ query, setQuery ] = useState('')
     const [ search, setSearch ] = useState(null)
@@ -77,6 +93,8 @@ const Index = () => {
             )
         }
         dispatch(getSpecificItems(search, author, page, sort))
+        dispatch(getNewestArticles())
+        dispatch(getPopularArticles())
         // USERS
         dispatch(getUsers())
     }
@@ -91,6 +109,20 @@ const Index = () => {
                         items.map(item => {
                             dispatch(getItemsFiles([item.picUrl]))
                         })
+                    }
+                    if(newest) {
+                        if(newest.length > 0) {
+                            newest.map(item => {
+                                dispatch(getItemsFiles([item.picUrl]))
+                            })
+                        }
+                    }
+                    if(popular) {
+                        if(popular.length > 0) {
+                            popular.map(item => {
+                                dispatch(getItemsFiles([item.picUrl]))
+                            })
+                        }
                     }
                 }
             }
@@ -128,6 +160,10 @@ const Index = () => {
     useEffect(() => {
         jump(search, author, page, sort)
     }, [finder])
+
+    useEffect(() => {
+        setMsg(err.msg.msg)
+    }, [err])
 
     // PAGE
     const togglePage = e => {
@@ -180,7 +216,13 @@ const Index = () => {
     }
 
     return (
-        <main>
+        <main className={styles.main}>
+        
+            {msg ?
+                <section className={styles.msg}>
+                    <h3>{msg}</h3>
+                </section>
+            : null}
 
             <Head>
                 <title>My Blog</title>
@@ -188,124 +230,194 @@ const Index = () => {
                 <meta property="og:description" content='My Blog Description'/>
             </Head>
 
-            <Subscribe/>
-
-            <section>            
-                <form onSubmit={handleSubmit}>
-                    <input type="text" value={query} onChange={handleSearch}></input>
-                    <input type="submit" value="Search"></input>
-                </form>
-            </section>
-
             <AdBanner/>
 
-            <section>
-                <button onClick={toggleFilters}>Filters</button>
-                {isOpenFilters ?
+            <Subscribe/>
+
+            <section className={styles.filtersDiv}>
+
+                <form onSubmit={handleSubmit} className={styles.searchform}>
+                    <input type="text" value={query} onChange={handleSearch}></input>
+                    <input type="submit" value="Search" className={styles.lastbtn}></input>
+                </form>
+                
+                <article className={styles.filters}>
                     <div>
-                        <h4>Author <button onClick={toggleAuthor}>v</button></h4>
-                        {isOpenAuthor ?
-                            userz ?
-                                userz.map(user =>
-                                    <div key={user.name}>
-                                        <input 
-                                            type="checkbox"
-                                            name="author"
-                                            id={user.name}
-                                            value={user.name}
-                                            onChange={handleAuthor}
-                                            defaultChecked={false}
-                                        ></input>
-                                        <p>{user.name}</p>
-                                    </div>
-                                )
-                            : null
+                        <button onClick={toggleFilters}>Filters</button>
+                        {isOpenFilters ?
+                            <div className={styles.isopenfilters}>
+                                <button onClick={toggleAuthor}>Author</button>
+                                {isOpenAuthor ?
+                                    userz ?
+                                        userz.map(user =>
+                                            <div className={styles.isopenauthor} key={user.name}>
+                                                <input 
+                                                    className={styles.authorinput}
+                                                    type="checkbox"
+                                                    name="author"
+                                                    id={user.name}
+                                                    value={user.name}
+                                                    onChange={handleAuthor}
+                                                    defaultChecked={false}
+                                                ></input>
+                                                <p>{user.name}</p>
+                                            </div>
+                                        )
+                                    : null
+                                : null}
+                            </div>
                         : null}
                     </div>
-                : null}
-            
-                <button onClick={toggleSort}>Sort</button>
-                {isOpenSort ?
-                    <section>
-                        <input type="radio" name="filter" value="descending" onChange={handleDescending} checked={false}></input> <p>Newest</p>
-                        <input type="radio" name="filter" value="ascending" onChange={handleAscending} checked={false}></input> <p>Oldest</p>           
-                        <input type="radio" name="filter" value="popular" onChange={handlePopular} checked={false}></input> <p>Most popular</p>
-                    </section>
-                : null}
+                    <div>
+                        <button onClick={toggleSort} className={styles.lastbtn}>Sort</button>
+                        {isOpenSort ?
+                            <section className={styles.isopensort}>
+                                <div>
+                                    <input type="radio" name="filter" value="descending" onChange={handleDescending} checked={false}></input>
+                                    <p>Newest</p>
+                                </div>
+                                <div>
+                                    <input type="radio" name="filter" value="ascending" onChange={handleAscending} checked={false}></input>
+                                    <p>Oldest</p>           
+                                </div>
+                                <div>
+                                    <input type="radio" name="filter" value="popular" onChange={handlePopular} checked={false}></input>
+                                    <p>Most popular</p>
+                                </div>
+                            </section>
+                        : null}
+                    </div>
+                </article>
 
             </section>
 
-            <section>
-                {items ?
-                    items.map((item) => (
-                        <article key={item._id}>
-                            {picz ?
-                                picz.length > 0 ?
-                                    picz.map(pic =>
-                                        pic === null ?
-                                            null
-                                        : pic.filename === item.picUrl ?
-                                            <img key={pic._id} src={`/api/uploads/image/${pic.filename}`} alt={item.title} width="50" height="50"></img>
-                                        : null
-                                    )
-                                : null
-                            : null}
-                            <p>
-                                {item.by}
-                            </p>
-                            <p>
-                                {item.views.total} views
-                            </p>
-                            <p>
-                                {item.commCount} comments
-                            </p>
-                            <section>
-                                <header>
+            <section className={styles.mainlist}>
+
+                <section className={styles.itemslist}>
+                    <h3>Latest Articles</h3>
+                    {items ?
+                        items.map((item) => (
+                            <Link key={item._id} href="/[title]" as={`/${item.title}`}>
+                                <article className={styles.item}>
+                                    <section className={styles.picdiv}>
+                                        {picz ?
+                                            picz.length > 0 ?
+                                                picz.map(pic =>
+                                                    pic === null ?
+                                                        null
+                                                    : pic.filename === item.picUrl ?
+                                                        <img className={styles.itemimg} key={pic._id} src={`/api/uploads/image/${pic.filename}`} alt={item.title}></img>
+                                                    : null
+                                                )
+                                            : null
+                                        : null}
+                                    </section>
+                                    <section className={styles.innerSection}>
+                                        <p>by {item.by}</p>
+                                        <p>{item.date.slice(0,10)} {item.date.slice(11,19)}</p>
+                                        <p>{item.views.total} {viewspost}</p>
+                                        <p>{item.commCount} {commentspost}</p>
+                                    </section>
                                     <h2>{item.title}</h2>
-                                </header>
-                                <h4>{item.subtitle}</h4>
-                                {item.text ?
-                                    item.text.blocks ?
-                                        <p>{item.text.blocks.find(elem => elem.type === 'paragraph').data.text.slice(0,10)}[...]</p>
-                                    : null
-                                : null}
-                            </section>
-                            <p>
-                                {item.date.slice(0,10)} {item.date.slice(11,19)}
-                            </p>
-                            <Link href="/[title]" as={`/${item.title}`}>
-                                <button>View</button>
+                                    {item.text ?
+                                        item.text.blocks ?
+                                            <p>{item.text.blocks.find(elem => elem.type === 'paragraph').data.text.slice(0,10)}[...]</p>
+                                        : null
+                                    : null}
+                                </article>
                             </Link>
-                        </article>
-                    ))
-                : null}
+                        ))
+                    : null}
+                </section>
+
+                <section className={styles.asside}>
+
+                    <section className={styles.assideSec}>
+                        <h3>Popular Articles</h3>
+                        {popular ?
+                            popular.map((item) => (
+                                <Link href="/[title]" as={`/${item.title}`} key={item._id}>
+                                    <article className={styles.assideitem}>
+                                        <section className={styles.assidepicdiv}>
+                                            {picz ?
+                                                picz.length > 0 ?
+                                                    picz.map(pic =>
+                                                        pic === null ?
+                                                            null
+                                                        : pic.filename === item.picUrl ?
+                                                            <img className={styles.assideitemimg} key={pic._id} src={`/api/uploads/image/${pic.filename}`} alt={item.title}></img>
+                                                        : null
+                                                    )
+                                                : null
+                                            : null}
+                                        </section>
+                                        <section className={styles.infosSec}>
+                                            <h2>{item.title}</h2>
+                                            <p>{item.date.slice(0,10)} {item.date.slice(11,19)}</p>
+                                        </section>
+                                    </article>
+                                </Link>
+                            ))
+                        : null}
+                    </section>
+
+                    <h3>Support Us</h3>
+                    <ShortSub/>
+
+                    <section className={styles.assideSec}>
+                        <h3>Latest Articles</h3>
+                        {newest ?
+                            newest.map((item) => (
+                                <Link href="/[title]" as={`/${item.title}`} key={item._id}>
+                                    <article className={styles.assideitem}>
+                                        <section className={styles.assidepicdiv}>
+                                            {picz ?
+                                                picz.length > 0 ?
+                                                    picz.map(pic =>
+                                                        pic === null ?
+                                                            null
+                                                        : pic.filename === item.picUrl ?
+                                                            <img className={styles.assideitemimg} key={pic._id} src={`/api/uploads/image/${pic.filename}`} alt={item.title}></img>
+                                                        : null
+                                                    )
+                                                : null
+                                            : null}
+                                        </section>
+                                        <section className={styles.infosSec}>
+                                            <h2>{item.title}</h2>
+                                            <p>{item.date.slice(0,10)} {item.date.slice(11,19)}</p>
+                                        </section>
+                                    </article>
+                                </Link>
+                            ))
+                        : null}
+                    </section>
+
+                </section>
+                
             </section>
 
             {/* PAGINATION */}
 
             {previous ?
                 next ?
-                    <div>
+                    <section className={styles.pagination}>
                         <button value={previous.page} onClick={togglePage}>{previous.page}</button>
                         <button disabled>{next.page - 1}</button>
-                        <button value={next.page} onClick={togglePage}>{next.page}</button>
-                    </div>
-                : <div>
+                        <button className={styles.lastbtn} value={next.page} onClick={togglePage}>{next.page}</button>
+                    </section>
+                : <section className={styles.pagination}>
                     <button value={previous.page} onClick={togglePage}>{previous.page}</button>
-                    <button disabled>{previous.page + 1}</button>
-                </div>
+                    <button className={styles.lastbtn} disabled>{previous.page + 1}</button>
+                </section>
             : next ?
-                <div>
+                <section className={styles.pagination}>
                     <button disabled>{next.page - 1}</button>
-                    <button value={next.page} onClick={togglePage}>{next.page}</button>
-                </div>
+                    <button className={styles.lastbtn} value={next.page} onClick={togglePage}>{next.page}</button>
+                </section>
             : null}
 
             {/* PAGINATION */}
-
-            {/* <footer>
-                ...
-            </footer> */}
 
         </main>
     )

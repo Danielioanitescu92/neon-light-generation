@@ -7,6 +7,10 @@
     "start": "next start -p $PORT"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-brands-svg-icons": "^5.15.3",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "@sendgrid/mail": "^7.4.1",
     "axios": "^0.21.0",
     "gridfs-stream": "^1.1.1",

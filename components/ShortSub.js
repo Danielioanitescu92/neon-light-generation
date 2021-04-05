@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import styles from '../css/Subscribe.module.css'
-import { useSelector, useDispatch } from 'react-redux'
-import { subscribe } from '../store/actions/subActions'
+import { useDispatch } from 'react-redux'
 import { clearErrors } from '../store/actions/errorActions'
+import { subscribe } from '../store/actions/subActions'
 
 const Subscribe = () => {
 
@@ -31,15 +31,9 @@ const Subscribe = () => {
 
     return (
         <section className={styles.subscribe}>
-
-            <article className={styles.subscribeArt}>
-                <h3>Subscribe form</h3>
-                <p>Take part in our subscribers community to receive new articles everytime we release one.</p>
-            </article>
-
-            <form onSubmit={subscribeEmail} className={styles.searchform}>
+            <form onSubmit={subscribeEmail} className={styles.searchformunder}>
                 <input type="text" value={email} onChange={handleEmail}></input>
-                <input type="submit" value="Subscribe" className={styles.lastbtn}></input>
+                <input type="submit" value="Subscribe" className={styles.longbtn}></input>
             </form>
         </section>
     )

@@ -1,6 +1,8 @@
 import {
     GET_ITEMS,
     GET_PAGINATED_ITEMS,
+    GET_NEWEST_ITEMS,
+    GET_POPULAR_ITEMS,
     ITEMS_LOADING,
     GO_ITEMS,
     GET_THIS_ITEMS
@@ -116,20 +118,46 @@ export const getSpecificItems = (search, author, page, sort) => {
                     type: GET_PAGINATED_ITEMS,
                     payload: res.data
                 })
-                // res.data.results.map(it => {
-                //     firstArray.push(it.picUrl)
-                // })
             }
         )
-        // .then(() => {
-        //         picsArray = firstArray
-        //         dispatch(goItemsFiles())
-        //     }
-        // )
-        // .then(() => {
-        //         dispatch(getItemsFiles(picsArray))
-        //     }
-        // )
+        .catch(err => {
+            console.log(err)
+            dispatch(returnErrors(err.response.data, err.response.status))
+        }
+        )
+    }
+};
+
+export const getNewestArticles = () => {
+    return function(dispatch) {
+        dispatch(setItemsLoading());
+        axios.get(`/api/items/newpop/sort/descending`)
+        .then(res => {
+                dispatch({
+                    type: GET_NEWEST_ITEMS,
+                    payload: res.data
+                })
+            }
+        )
+        .catch(err => {
+            console.log(err)
+            dispatch(returnErrors(err.response.data, err.response.status))
+        }
+        )
+    }
+};
+
+export const getPopularArticles = () => {
+    return function(dispatch) {
+        dispatch(setItemsLoading());
+        axios.get(`/api/items/newpop/sort/popular`)
+        .then(res => {
+                dispatch({
+                    type: GET_POPULAR_ITEMS,
+                    payload: res.data
+                })
+            }
+        )
         .catch(err => {
             console.log(err)
             dispatch(returnErrors(err.response.data, err.response.status))

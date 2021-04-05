@@ -1,0 +1,39 @@
+.subscribe {
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 5px 0 5px 0;
+    background: rgba(255, 255, 255, 0.2);
+    border: solid 2px transparent;
+    border-radius: 5px;
+    background-clip: padding-box;
+    box-shadow: 5px 5px 5px rgba(46, 54, 68, 0.1);
+}
+
+.subscribeArt {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.searchform {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.searchformunder {
+    width: 100%;
+    flex-direction: column;
+}
+
+.longbtn {
+    width: 100% !important;
+    margin: 10px 0 0 0 !important;
+}

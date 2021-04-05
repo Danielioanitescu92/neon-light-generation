@@ -1,7 +1,8 @@
-import styles from '../css/Forapp.module.css'
+import '../css/style.css'
 import { Provider } from 'react-redux'
 import { useStore } from '../store'
 import AppNavbar from '../components/AppNavbar'
+import Footer from '../components/Footer'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import * as gtag from '../lib/gtag'
@@ -134,51 +135,51 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <div className={styles.grid}>
+      <AppNavbar/>
+      <div>
         <Provider store={store}>
-          <AppNavbar/>
           <Component {...pageProps} />
         </Provider>
         
-        <div style={{ 
+        <div 
+          className='consent'
+          style={{ 
             display:
               allSetGo ?
                 document.cookie.split(';').some((cook) => cook.includes('Consent')) ?
                   'none'
                 : 'block'
-              : 'none',
-            position: 'absolute',
-            left: '0',
-            top: '0',
-            width: '200px',
-            heigth: '100px',
-            backgroundColor: 'green' 
+              : 'none'
           }}>
-          <p>Our websites uses cookies.</p>
-          <form>
-            <label>AdSense: </label>
-            <input 
-                type="checkbox"
-                name="adsense"
-                value={AdSenseTrue}
-                onChange={handleAdSense}
-                defaultChecked={AdSenseTrue}
-            ></input>
-            <br></br>
-            <label>Analytics: </label>
-            <input 
-                type="checkbox"
-                name="analytics"
-                value={AnalyticsTrue}
-                onChange={handleAnalytics}
-                defaultChecked={AnalyticsTrue}
-            ></input>
+          <p className='consentInfo'>Our websites uses cookies. Accepting them will help us deliver a better experience for all our users. Thank you!</p>
+          <form className='consentForm'>
+            <div className='consentFormDiv'>
+              <input 
+                  type="checkbox"
+                  name="adsense"
+                  value={AdSenseTrue}
+                  onChange={handleAdSense}
+                  defaultChecked={AdSenseTrue}
+              ></input>
+              <label>AdSense: </label>
+            </div>
+            <div className='consentFormDiv'>
+              <input 
+                  type="checkbox"
+                  name="analytics"
+                  value={AnalyticsTrue}
+                  onChange={handleAnalytics}
+                  defaultChecked={AnalyticsTrue}
+              ></input>
+              <label>Analytics: </label>
+            </div>
           </form>
-          <button onClick={acceptConsent}>OK</button>
-          <button onClick={rejectConsent}>Reject all</button>
+          <button onClick={acceptConsent} className='consentBtn'>OK</button>
+          <button onClick={rejectConsent} className='consentBtn'>Reject all</button>
         </div>
 
       </div>
+      <Footer/>
     </>
   )
 }

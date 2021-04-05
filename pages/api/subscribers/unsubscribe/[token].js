@@ -13,11 +13,11 @@ export default async function handler(req, res) {
           ToDeletePasswordExpires: { $gt: Date.now() }
         })
         if(sub === null) {
-          res.status(400).json({ msg: 'unsubscribe link is invalid or has expired' })
+          res.status(400).json({ msg: 'Unsubscribe link is invalid or has expired. Please try again or contact admin.' })
         } else {
           res.status(200).json({
             subscriber: sub,
-            msg: 'password reset link a-ok'
+            msg: 'Password reset link has been sent.'
           })
         }
 
