@@ -224,6 +224,7 @@ const ItemPage = ({ item, originPath, qu }) => {
                 : null}
         
                 <Head>
+                    <title>{item.title}</title>
                     <meta property="og:title" content={item.title}/>
                     <meta property="og:description" content={item.subtitle}/>
                     <meta property="og:image" content={`${originPath}/api/uploads/image/${item.picUrl}`}/>

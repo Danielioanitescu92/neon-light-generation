@@ -11,6 +11,9 @@ class MyDocument extends Document {
         return (
             <Html>
                 <Head>
+                    <title>Neon Light Generation</title>
+                    <meta property="og:title" content='Neon Light Generation'/>
+                    <meta property="og:description" content='Welcoming ideas that can be added by any neon light design enthusiast.'/>
                     <link rel="icon" href="/fav.png" />
                 </Head>
                 <body>
