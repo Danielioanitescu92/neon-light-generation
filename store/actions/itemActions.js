@@ -50,7 +50,7 @@ export const getThisItem = id => {
 };
 
 export const addView = ({ post, way, unique, screenSize }) => {
-    console.log("ACTION addView way: ", way)
+    console.log("A ACTION item addView: ", post, way, unique, screenSize )
     return function(dispatch) {
         const config = {
             headers: {
@@ -60,9 +60,10 @@ export const addView = ({ post, way, unique, screenSize }) => {
         const body = JSON.stringify({ post, way, unique, screenSize });
         axios.post(`/api/items/getThisItem/view`, body, config)
         .then(res => {
-            console.log("ACTION addView res.data item: ", res.data)
+            console.log("B ACTION item addView res.data: ", res.data)
         })
         .catch(err => {
+            console.log("B ACTION item addView err: ", res.data)
             dispatch(returnErrors(err.response.data, err.response.status));
         })
     }
