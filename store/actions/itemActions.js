@@ -50,7 +50,6 @@ export const getThisItem = id => {
 };
 
 export const addView = ({ post, way, unique, screenSize }) => {
-    console.log("A ACTION item addView: ", post, way, unique, screenSize )
     return function(dispatch) {
         const config = {
             headers: {
@@ -60,10 +59,8 @@ export const addView = ({ post, way, unique, screenSize }) => {
         const body = JSON.stringify({ post, way, unique, screenSize });
         axios.post(`/api/items/getThisItem/view`, body, config)
         .then(res => {
-            console.log("B ACTION item addView res.data: ", res.data)
         })
         .catch(err => {
-            console.log("B ACTION item addView err: ", res.data)
             dispatch(returnErrors(err.response.data, err.response.status));
         })
     }
@@ -122,7 +119,6 @@ export const getSpecificItems = (search, author, page, sort) => {
             }
         )
         .catch(err => {
-            console.log(err)
             dispatch(returnErrors(err.response.data, err.response.status))
         }
         )
@@ -141,7 +137,6 @@ export const getNewestArticles = () => {
             }
         )
         .catch(err => {
-            console.log(err)
             dispatch(returnErrors(err.response.data, err.response.status))
         }
         )
@@ -160,7 +155,6 @@ export const getPopularArticles = () => {
             }
         )
         .catch(err => {
-            console.log(err)
             dispatch(returnErrors(err.response.data, err.response.status))
         }
         )

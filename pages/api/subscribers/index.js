@@ -67,11 +67,9 @@ export default async function handler(req, res) {
                         await sgMail
                         .send(msg)
                         .then(() => {
-                            console.log("5")
                             res.status(200).json({ msg: 'Subscribe email sent' })
                         })
                         .catch((error) => {
-                            console.log("6")
                             res.status(400).json({ msg: 'There was an error subscribing' });
                         })
                     }
