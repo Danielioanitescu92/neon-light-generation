@@ -181,6 +181,7 @@
 .tagsdiv {
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     justify-content: flex-start;
     align-items: center;
 }
@@ -189,6 +190,9 @@
     width: 100px;
     height: 36px;
     margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: rgba(255, 255, 255, 0.2);
     border: 2px solid rgba(255, 255, 255, 0.1);
     box-shadow: 5px 5px 5px rgba(46, 54, 68, 0.1);
@@ -347,6 +351,10 @@
     font-size: 16px;
 }
 
+.blocklist {
+    color:  rgb(255, 255, 255);
+}
+
 .listitem {
     margin: 1vw;
 }
@@ -362,6 +370,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color:  rgb(255, 255, 255);
 }
 
 .quotequote {
