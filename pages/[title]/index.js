@@ -40,8 +40,6 @@ const ItemPage = ({ item, originPath, qu }) => {
     const err = useSelector(state => state.error)
 
     useEffect(() => {
-        console.log("SSR ITEM: ", item)
-        console.log("SSR query.title: ", qu)
         if(item) {
             dispatch(getThisUser(item.by))  
             dispatch(getThisComms(item._id))
@@ -69,47 +67,58 @@ const ItemPage = ({ item, originPath, qu }) => {
                     }
                 }
             }
-            if (localStorage.getItem(`userId`)) {
-                console.log("A Got LocSt userId")
-                if (sessionStorage.getItem(`userId`)) {
-                    console.log("B Got SesSt userId")
-                    if (localStorage.getItem(`userId`) === sessionStorage.getItem(`userId`)) {
-                        console.log("C LocSt = SesSt")
-                        const uniq = 'unique'
-                        const theView = {
-                            post: item._id,
-                            way: window.location.href,
-                            unique: uniq,
-                            screenSize: window.screen.width
-                        }
-                        console.log("D uniq, theView: ", uniq, theView)
-                        if (!sessionStorage.getItem(`viewAdded`)) {
-                            console.log("E You don't have viewAdded")
-                            dispatch(addView(theView))
-                            sessionStorage.setItem(`viewAdded`, 'true')
-                            console.log("F so set viewAdded: true")
-                        }
-                    } else {
-                        console.log("C LocSt != SesSt")
-                        const uniq = 'no'
-                        const theView = {
-                            post: item._id,
-                            way: window.location.href,
-                            unique: uniq,
-                            screenSize: window.screen.width
-                        }
-                        console.log("D uniq, theView: ", uniq, theView)
-                        if (!sessionStorage.getItem(`viewAdded`)) {
-                            console.log("E You don't have viewAdded")
-                            dispatch(addView(theView))
-                            sessionStorage.setItem(`viewAdded`, 'true')
-                            console.log("F so set viewAdded: true")
+        }
+    }, [])
+
+    useEffect(() => {
+        // ADD UNIQUE/NOT-UNIQUE VIEW
+        console.log("X change @ newest")
+        if(item) {
+            console.log("X got item")
+            if(newest) {
+                console.log("X got newest")
+                if (localStorage.getItem(`userId`)) {
+                    console.log("A Got LocSt userId")
+                    if (sessionStorage.getItem(`userId`)) {
+                        console.log("B Got SesSt userId")
+                        if (localStorage.getItem(`userId`) === sessionStorage.getItem(`userId`)) {
+                            console.log("C LocSt = SesSt")
+                            const uniq = 'unique'
+                            const theView = {
+                                post: item._id,
+                                way: window.location.href,
+                                unique: uniq,
+                                screenSize: window.screen.width
+                            }
+                            console.log("D uniq, theView: ", uniq, theView)
+                            if (!sessionStorage.getItem(`viewAdded`)) {
+                                console.log("E You don't have viewAdded")
+                                dispatch(addView(theView))
+                                sessionStorage.setItem(`viewAdded`, 'true')
+                                console.log("F so set viewAdded: true")
+                            }
+                        } else {
+                            console.log("C LocSt != SesSt")
+                            const uniq = 'no'
+                            const theView = {
+                                post: item._id,
+                                way: window.location.href,
+                                unique: uniq,
+                                screenSize: window.screen.width
+                            }
+                            console.log("D uniq, theView: ", uniq, theView)
+                            if (!sessionStorage.getItem(`viewAdded`)) {
+                                console.log("E You don't have viewAdded")
+                                dispatch(addView(theView))
+                                sessionStorage.setItem(`viewAdded`, 'true')
+                                console.log("F so set viewAdded: true")
+                            }
                         }
                     }
                 }
             }
         }
-    }, [])
+    }, [newest])
 
     useEffect(() => {
         // BRING AVATAR IMAGES
