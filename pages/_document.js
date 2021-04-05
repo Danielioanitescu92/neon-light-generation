@@ -11,7 +11,7 @@ class MyDocument extends Document {
         return (
             <Html>
                 <Head>
-                    <link rel="icon" href="/favicon.ico" />
+                    <link rel="icon" href="/fav.png" />
                 </Head>
                 <body>
                     <Main />
@@ -20,7 +20,7 @@ class MyDocument extends Document {
             </Html>
         )
     }
-    
+
 }
 
 export default MyDocument
