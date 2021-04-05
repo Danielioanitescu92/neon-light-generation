@@ -69,32 +69,32 @@ const ItemPage = ({ item, originPath, qu }) => {
                     }
                 }
             }
-        }
-        if (localStorage.getItem(`userId`)) {
-            if (sessionStorage.getItem(`userId`)) {
-                if (localStorage.getItem(`userId`) === sessionStorage.getItem(`userId`)) {
-                    const uniq = 'unique'
-                    const theView = {
-                        post: item._id,
-                        way: window.location.href,
-                        unique: uniq,
-                        screenSize: window.screen.width
-                    }
-                    if (!sessionStorage.getItem(`viewAdded`)) {
-                        dispatch(addView(theView))
-                        sessionStorage.setItem(`viewAdded`, 'true')
-                    }
-                } else {
-                    const uniq = 'no'
-                    const theView = {
-                        post: item._id,
-                        way: window.location.href,
-                        unique: uniq,
-                        screenSize: window.screen.width
-                    }
-                    if (!sessionStorage.getItem(`viewAdded`)) {
-                        dispatch(addView(theView))
-                        sessionStorage.setItem(`viewAdded`, 'true')
+            if (localStorage.getItem(`userId`)) {
+                if (sessionStorage.getItem(`userId`)) {
+                    if (localStorage.getItem(`userId`) === sessionStorage.getItem(`userId`)) {
+                        const uniq = 'unique'
+                        const theView = {
+                            post: item._id,
+                            way: window.location.href,
+                            unique: uniq,
+                            screenSize: window.screen.width
+                        }
+                        if (!sessionStorage.getItem(`viewAdded`)) {
+                            dispatch(addView(theView))
+                            sessionStorage.setItem(`viewAdded`, 'true')
+                        }
+                    } else {
+                        const uniq = 'no'
+                        const theView = {
+                            post: item._id,
+                            way: window.location.href,
+                            unique: uniq,
+                            screenSize: window.screen.width
+                        }
+                        if (!sessionStorage.getItem(`viewAdded`)) {
+                            dispatch(addView(theView))
+                            sessionStorage.setItem(`viewAdded`, 'true')
+                        }
                     }
                 }
             }
