@@ -87,6 +87,7 @@ const ItemPage = ({ item, originPath, qu }) => {
                 } else {
                     const uniq = 'no'
                     const theView = {
+                        post: item._id,
                         way: window.location.href,
                         unique: uniq,
                         screenSize: window.screen.width
